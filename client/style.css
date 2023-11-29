@@ -1,11 +1,6 @@
-/* div {
-    border: 1px solid black;
-} */
-/* 
-.navbar-toggler {
-    border: 1px solid white;
-
-} */
+body, html {
+    height: 100%;
+}
 
 .bg-seagreen {
     background-color: seagreen;
@@ -14,5 +9,9 @@
 
 .checkDiv {
     background-color: red;
-    border: 1px dotted purple;
+    border: 2px dotted black;
 }
+
+/* div {
+    border: 2px solid black;
+} */

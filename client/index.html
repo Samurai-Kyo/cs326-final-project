@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Client</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,shrink-to-fit=no"
+    />
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -18,9 +23,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
     />
+    <script src="./main.js"></script>
   </head>
   <body>
-    <div class="container-fluid p-0">
+    <div class="container-fluid d-flex flex-column h-100 p-0">
       <nav class="navbar navbar-expand-sm bg-seagreen px-2">
         <button
           class="navbar-toggler border-white"
@@ -34,7 +40,8 @@
           <!-- <span class="navbar-toggler-icon checkDiv"></span> -->
           <i class="bi bi-list text-white fs-3"></i>
         </button>
-        <span class="navbar-brand text-white mx-auto" href="#">Word Chain</span>
+        <span class="navbar-brand game-title mx-auto" href="#">Word Chain</span>
+        <!-- <hr class="d-sm-none"></hr> -->
         <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
             <li class="nav-item">
@@ -81,40 +88,20 @@
             </form> -->
         </div>
       </nav>
-      <div class="container">
-        <div
-          class="row text-center align-items-center justify-content-evenly p-3"
-        >
-          <div class="board col-12 col-sm-6">
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>c</td>
-                  <td>a</td>
-                  <td>t</td>
-                </tr>
-              </tbody>
-            </table>
+      <div class="row flex-grow-1 m-0 text-center align-items-center">
+        <div class="board col-12 col-sm-6">
+          <div>
+            <span class="fs-3 fw-bold">Category: </span>
+            <span class="fs-3">Animals</span>
           </div>
-          <div class="wordBank col-12 col-sm-6">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2">Word Bank</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>cat</td>
-                  <td>dog</td>
-                </tr>
-                <tr>
-                  <td>cat</td>
-                  <td>dog</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="" id="board"></div>
+          <div class="" id="timer"></div>
+        </div>
+        <div class="wordBank col-12 col-sm-6">
+          <div>
+            <span class="fs-3 fw-bold">Word Bank</span>
           </div>
+          <div class="" id="wordBank"></div>
         </div>
       </div>
     </div>
