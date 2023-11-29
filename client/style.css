@@ -1,0 +1,18 @@
+/* div {
+    border: 1px solid black;
+} */
+/* 
+.navbar-toggler {
+    border: 1px solid white;
+
+} */
+
+.bg-seagreen {
+    background-color: seagreen;
+    /* color: white; */
+}
+
+.checkDiv {
+    background-color: red;
+    border: 1px dotted purple;
+}
