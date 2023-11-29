@@ -4,12 +4,31 @@ body, html {
 
 .bg-seagreen {
     background-color: seagreen;
-    /* color: white; */
 }
 
 .checkDiv {
     background-color: red;
     border: 2px dotted black;
+}
+
+.board-container{
+
+}
+
+.progress-bar {
+    width: 75%;
+    /* border: 1px solid black; */
+}
+
+#timer {
+    width: 75%;
+    /* border: 1px solid black; */
+}
+
+#game-board {
+    /* margin-top: auto;
+    margin-bottom: auto; */
+    /* border: 1px solid black; */
 }
 
 /* div {
