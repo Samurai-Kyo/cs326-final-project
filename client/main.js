@@ -1,5 +1,7 @@
 
-const CATEGORIES = [];
+// const CATEGORIES = [];
+let SIZE = 10; // default size
+
 // get text of span with id of "current-category"
 const currentCategoryElement = document.getElementById("current-category");
 console.log(currentCategoryElement.innerText);
@@ -29,15 +31,9 @@ async function fetchBoard(size, category) {
   }
 }
 
-let categories = [];
-
-async function init() {
-  await setupCategories();
-}
-
 async function setupCategories() {
-  categories = await fetchCategories();
-  categories = categories.map(
+  const categoryNames = await fetchCategories();
+  const categoryNamesFixed = categoryNames.map(
     (
       category // Capitalize first letter in each word and set underscores as spaces using regex
     ) =>
@@ -45,26 +41,46 @@ async function setupCategories() {
         match.toUpperCase().replace("_", " ")
       )
   );
-  CATEGORIES.push(...categories);
-  categories.sort();
-  const categorySelect = document.getElementById("categories");
 
-  const divider = document.createElement("li");
-  divider.classList.add("dropdown-divider");
-  for (let i = 0; i < categories.length; i++) {
-    const category = categories[i];
+  const categoryElements = [];
+  for (let i = 0; i < categoryNames.length; i++) {
+    const category = categoryNames[i];
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.classList.add("dropdown-item");
     a.href = "#"; // FIXME: Add link to fetch category and reset page
-    a.textContent = category;
+    a.id = category;
+    a.textContent = categoryNamesFixed[i];
     li.appendChild(a);
-    categorySelect.appendChild(li);
-    if (i < categories.length - 1) {
-      categorySelect.appendChild(divider.cloneNode());
+    categoryElements.push(li);
+  }
+  categoryElements.sort((a, b) => {
+    if (a.textContent < b.textContent) {
+      return -1;
+    }
+    if (a.textContent > b.textContent) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const categorySelect = document.getElementById("categories");
+  for (let i = 0; i < categoryElements.length; i++) {
+    const element = categoryElements[i];
+    categorySelect.appendChild(element);
+    if (i < categoryElements.length - 1) {
+      const divider = document.createElement("li");
+      divider.classList.add("dropdown-divider");
+      categorySelect.appendChild(divider);
     }
   }
 }
 
+
+
+
+async function init() {
+  await setupCategories();
+}
 
 init();
