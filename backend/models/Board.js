@@ -2,16 +2,21 @@ class Board {
   letterPositions = {}; // { letter: [{ x, y }, {x ,y}, ... {x, y}] }
   placedWords = []; // [word, word, ...]
 
+  /**
+   * Creates a board with the given word list and size
+   * @param {[string]} wordList The list of words to place on the board
+   * @param {int} size The size of the board
+   */
   constructor(wordList, size) {
-    this.board = this.generateBoard(size);
+    this.board =  Array.from(Array(size), () => Array(size).fill(null));
     this._placeWords(wordList);
   }
 
-  generateBoard(size) {
-    const board = Array.from(Array(size), () => Array(size).fill(null));
-    return board;
-  }
-
+  /**
+   * Attempts to place all words on the board
+   * @param {[string]} wordList The list of words to place on the board
+   * @returns if all words were placed
+   */
   _placeWords(wordList) {
     if (wordList.length === 0) {
       return;
@@ -70,6 +75,13 @@ class Board {
     });
   }
 
+  /**
+   * Attempts to place a word on the board starting at the given position
+   * @param {string} word The word to place
+   * @param {int} x The x position to start placing the word (0-indexed)
+   * @param {int} y The y position to start placing the word (0-indexed)
+   * @returns A boolean indicating if the word was placed
+   */
   _placeWord(word, x, y) {
     word = word.toUpperCase().split("");
     const directions = ["north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest"];
@@ -149,6 +161,11 @@ class Board {
     return place(word, x, y, usedCoords);
   }
 
+  /**
+   * Shuffles an array
+   * @param {[]} arr 
+   * @returns A copy of the shuffled array
+   */
   _shuffle(arr) {
     // Fisher-Yates shuffle
     const shuffled = [...arr];
@@ -159,10 +176,18 @@ class Board {
     return shuffled;
   }
 
+  /**
+   * Converts the board to a JSON string
+   * @param {Board} board The board to convert to JSON
+   * @returns The JSON string of the board { board: [[String]], placedWords: [String]}
+   */
   static toJSON(board) {
     return JSON.stringify({board: board.board, placedWords: board.placedWords});
   }
 
+  /**
+   * Prints the board to the console
+   */
   print() {
     this.board.forEach((row) => {
       row.forEach((tile) => {

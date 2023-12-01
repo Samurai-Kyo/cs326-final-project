@@ -1,16 +1,28 @@
-import db from "../services/DBService.js";
-import { Board } from "../models/Board.js";
+import DB from "../services/DBService.js";
+import Board from "../models/Board.js";
 
-export class BoardController {
-    async getBoard(req, res) {
-        const { size, category } = req.body;
-        const board = new Board(size, category);
-        const result = await db.getBoard(board);
-        if (result) {
-            return res.status(200).json(result);
-        }
-        return res.status(400).json({ error: 'Invalid size or category.' });
+/**
+ * Gets a board from the database.
+ * @param {http.ClientRequest} req The request object. 
+ * @param {http.ServerResponse} res The response object.
+ */
+async function getBoard(req, res) {
+  try{
+    const { size, category } = req.body;
+    const db = new DB();
+    await db.connect();
+    const words = await db.getWordsByCategory(category);
+    if (words.length === 0) {
+        throw new Error('No words found for category.');
     }
+    const board = new Board(words, size);
+    const jsonBoard = Board.toJSON(board);
+    await db.disconnect();
+    res.status(200).send(jsonBoard);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: 'Internal server error.' });
+  }
 }
 
-export default new BoardController();
+export { getBoard };
