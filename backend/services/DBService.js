@@ -70,13 +70,13 @@ class DB {
             );
             CREATE TABLE users (
                 id SERIAL PRIMARY KEY,
-                username VARCHAR(255) NOT NULL,
-                password VARCHAR(255)
+                username VARCHAR(255) NOT NULL
             );
             CREATE TABLE scores (
                 id SERIAL PRIMARY KEY,
                 score INTEGER NOT NULL,
-                user_id INTEGER REFERENCES users(id)
+                user_id INTEGER REFERENCES users(id),
+                category_id INTEGER REFERENCES categories(id)
             );
             `);
       console.log("Database initialized");
@@ -162,14 +162,14 @@ class DB {
 
   /**
    * Gets all categories from the database.
-   * @returns All categories in the database.
+   * @returns An array with all categories in the database.
    */
   async getCategories() {
     try {
       const result = await this.client.query(`
             SELECT * FROM categories;
             `);
-      return result.rows;
+      return result.rows.map((row) => row.name);
     } catch (error) {
       console.log(error);
     }
@@ -178,7 +178,7 @@ class DB {
   /**
    * Gets words from the database by category.
    * @param {int} category_id
-   * @returns All words in the given category.
+   * @returns An array with all words in the given category.
    */
   async getWordsByCategory(category_id) {
     try {
@@ -189,7 +189,6 @@ class DB {
             `,
         [category_id]
       );
-      // convert result to word array
       return result.rows.map((row) => row.word);
     } catch (error) {
       console.log(error);
@@ -198,14 +197,14 @@ class DB {
 
   /**
    * Gets all words from the database.
-   * @returns All words in the database.
+   * @returns An array with all words in the database.
    */
   async getWords() {
     try {
       const result = await this.client.query(`
             SELECT * FROM words;
             `);
-      return result.rows;
+      return result.rows.map((row) => row.word);
     } catch (error) {
       console.log(error);
     }
@@ -213,15 +212,28 @@ class DB {
 
   /**
    * Gets all words from the database.
-   * @returns All scores in the database.
+   * @returns An object with all scores, along with its user and category in the database.
    */
   async getScores() {
     try {
-      const result = await this.client.query(`
-            SELECT * FROM scores
+      const result = await this.client.query(
+        // get all scores, join with users and categories sorted by score descending
+        `
+            SELECT scores.id, scores.score, users.username, categories.name
+            FROM scores
+            JOIN users
+            ON scores.user_id = users.id
+            JOIN categories
+            ON scores.category_id = categories.id
             ORDER BY score DESC;
             `);
-      return result.rows;
+      return result.rows.reduce((acc, row) => {
+        if (!acc[row.username]) {
+            acc[row.username] = [];
+        }
+        acc[row.username].push({ score: row.score, category: row.name });
+        return acc;
+      }, {});
     } catch (error) {
       console.log(error);
     }
@@ -230,7 +242,7 @@ class DB {
   /**
    * Adds a category to the database.
    * @param {String} name
-   * @returns The category that was added.
+   * @returns An object with category that was added and its id.
    */
   async addCategory(name) {
     try {
@@ -242,7 +254,7 @@ class DB {
             `,
         [name]
       );
-      return result.rows[0];
+      return { name: result.rows[0].name, id: result.rows[0].id };
     } catch (error) {
       console.log(error);
     }
@@ -252,7 +264,7 @@ class DB {
    * Adds a word to the database.
    * @param {String} word
    * @param {int} category_id
-   * @returns The word that was added.
+   * @returns An object of the word that was added with id and category_id.
    */
   async addWord(word, category_id) {
     try {
@@ -264,7 +276,7 @@ class DB {
             `,
         [word, category_id]
       );
-      return result.rows[0];
+      return {word: result.rows[0].word, id: result.rows[0].id, category_id: result.rows[0].category_id};
     } catch (error) {
       console.log(error);
     }
@@ -288,20 +300,19 @@ class DB {
   /**
    * Adds a user to the database.
    * @param {string} username
-   * @param {string} password
-   * @returns The user that was added.
+   * @returns An object of the user that was added and its id.
    */
-  async addUser(username, password = "") {
+  async addUser(username) {
     try {
       const result = await this.client.query(
         `
-            INSERT INTO users (username, password)
-            VALUES ($1, $2)
+            INSERT INTO users (username)
+            VALUES ($1)
             RETURNING *;
             `,
         [username, password]
       );
-      return result.rows[0];
+      return { username: result.rows[0].username, id: result.rows[0].id};
     } catch (error) {
       console.log(error);
     }
@@ -313,17 +324,17 @@ class DB {
    * @param {int} user_id
    * @returns The score that was added.
    */
-  async addScore(score, user_id) {
+  async addScore(score, user_id, category_id) {
     try {
       const result = await this.client.query(
         `
-            INSERT INTO scores (score, user_id)
-            VALUES ($1, $2)
+            INSERT INTO scores (score, user_id, category_id)
+            VALUES ($1, $2, $3)
             RETURNING *;
             `,
-        [score, user_id]
+        [score, user_id, category_id]
       );
-      return result.rows[0];
+      return { score: result.rows[0].score, user_id: result.rows[0].user_id };
     } catch (error) {
       console.log(error);
     }
@@ -332,7 +343,7 @@ class DB {
   /**
    * Gets a user's score from the database.
    * @param {int} user_id
-   * @returns The user's score.
+   * @returns An array of the user's scores.
    */
   async getScoreByUser(user_id) {
     try {
@@ -343,7 +354,7 @@ class DB {
             `,
         [user_id]
       );
-      return result.rows;
+      return result.rows.map((row) => row.score);
     } catch (error) {
       console.log(error);
     }

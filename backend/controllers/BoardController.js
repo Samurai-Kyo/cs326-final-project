@@ -12,16 +12,16 @@ async function getBoard(req, res) {
     const db = new DB();
     await db.connect();
     const words = await db.getWordsByCategory(category);
+    await db.disconnect();
     if (words.length === 0) {
         throw new Error('No words found for category.');
     }
     const board = new Board(words, size);
     const jsonBoard = Board.toJSON(board);
-    await db.disconnect();
     res.status(200).send(jsonBoard);
   } catch (error) {
     console.log(error);
-    res.status(500).send({ error: 'Internal server error.' });
+    res.status(500).send({ error: 'Internal server error.', message: error.message });
   }
 }
 
