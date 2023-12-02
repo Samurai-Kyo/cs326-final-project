@@ -1,6 +1,6 @@
 class Board {
   letterPositions = {}; // { letter: [{ x, y }, {x ,y}, ... {x, y}] }
-  placedWords = []; // [word, word, ...]
+  words = []; // [word, word, ...]
 
   /**
    * Creates a board with the given word list and size
@@ -59,7 +59,7 @@ class Board {
         }
       }
       if (placed) {
-        this.placedWords.push(word);
+        this.words.push(word);
       }
     }
 
@@ -182,7 +182,7 @@ class Board {
    * @returns The JSON string of the board { board: [[String]], placedWords: [String]}
    */
   static toJSON(board) {
-    return JSON.stringify({board: board.board, placedWords: board.placedWords});
+    return JSON.stringify({board: board.board, words: board.words});
   }
 
   /**
@@ -195,8 +195,8 @@ class Board {
       });
       process.stdout.write("\n");
     });
-    console.log(`# of words: ${this.placedWords.length}`);
-    console.log(`Words placed: ${this.placedWords.join(", ")}`);
+    console.log(`# of words: ${this.words.length}`);
+    console.log(`Words placed: ${this.words.join(", ")}`);
   }
 }
 

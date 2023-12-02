@@ -7,7 +7,7 @@ import { getCategories } from "../controllers/CategoriesController.js";
 const router = Router();
 
 // TODO: routes here
-router.get('/board', boardHandler, getBoard);
+router.post('/board', boardHandler, getBoard);
 router.get('/categories', getCategories);
 
 export default router;

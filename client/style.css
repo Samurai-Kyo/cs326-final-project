@@ -11,8 +11,14 @@ body, html {
     border: 2px dotted black;
 }
 
-.board-container{
+.game-tile {
+    background-color: lightblue;
+    min-width: 40px; /* Set a minimum width for each tile */
+    min-height: 40px; /* Set a minimum height for each tile */
+  }
 
+.game-tile:hover {
+    background-color: lightcoral;
 }
 
 .progress-bar {
@@ -25,10 +31,13 @@ body, html {
     /* border: 1px solid black; */
 }
 
-#game-board {
-    /* margin-top: auto;
-    margin-bottom: auto; */
-    /* border: 1px solid black; */
+#right-content {
+    border-top: 1px solid black;
+} 
+
+#left-content {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
 }
 
 /* div {
