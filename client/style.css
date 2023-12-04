@@ -21,6 +21,10 @@ html {
   padding: 0;
 }
 
+.game-tile-last {
+  background-color: rgb(173, 230, 185);
+}
+
 .game-tile-selected {
     background-color: lightblue;
 }

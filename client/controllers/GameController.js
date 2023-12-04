@@ -22,47 +22,60 @@ let game = null;
 function letterGuess(event) {
   const target = event.target;
   const id = target.id;
-  const x = parseInt(id[0]);
-  const y = parseInt(id[2]);
-  const letter = game.board[x][y];
 
-  //FIXME: need to fix
-  // const letterCoords = game.letterCoordsClicked[letter];
-  // if (
-  //   letterCoords &&
-  //   letterCoords.some((coord) => coord.x === x && coord.y === y)
-  // ) {
-  //   let letterCoord = letterCoords.find(
-  //     (coord) => coord.x === x && coord.y === y
-  //   );
-  //   letterCoords.splice(letterCoords.indexOf(letterCoord), 1);
-  //   removeLetterFromGuess(event, letterCoord);
-  // }
+  const coords = {
+    letter: target.textContent,
+    x: parseInt(id[0]),
+    y: parseInt(id[2]),
+  };
 
-  if (game.guessWord.includes(letter)) {
-    removeLetterFromGuess(event);
+  if (game.letterAlreadyClicked(coords)) {
+    removeLetterFromGuess(target, coords);
   } else {
-    addLetterToGuess(event);
+    addLetterToGuess(target, coords);
   }
 }
 
-function addLetterToGuess(event) {
-  const target = event.target;
-  target.classList.add("game-tile-selected");
-  const letter = target.textContent;
-  game.guessWord = game.guessWord + letter;
-  const guessElement = document.getElementById("current-word");
-  guessElement.textContent = prettifyWord(game.guessWord);
-  // handleGuess(game, game.guessWord);
+function addLetterToGuess(target, coords) {
+  // FIXME: this is not working
+  if (game.addLetterToGuess(coords)) {
+    // const target = event.target;
+    if (game.letterCoordsClicked.length > 0) {
+      const lastLetterCoords =
+        game.letterCoordsClicked[game.letterCoordsClicked.length - 1];
+      const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
+      const lastLetterElement = document.getElementById(lastLetterId);
+      lastLetterElement.classList.remove("game-tile-last");
+      lastLetterElement.classList.add("game-tile-selected");
+    }
+    target.classList.add("game-tile-last");
+    const guessElement = document.getElementById("current-word");
+    guessElement.textContent = game.guessWord;
+    // todo: handleGuess(game, game.guessWord);
+  } else {
+    alert("Invalid letter! Select a letter adjacent to the last letter.");
+  }
 }
 
-function removeLetterFromGuess(event) {
-  const target = event.target;
-  target.classList.remove("game-tile-selected");
-  const letter = target.textContent;
-  game.guessWord = game.guessWord.replace(letter, "");
-  const guessElement = document.getElementById("current-word");
-  guessElement.textContent = prettifyWord(game.guessWord);
+function removeLetterFromGuess(target, coords) {
+  // FIXME: this is not working
+  if (game.removeLetterFromGuess(coords)) {
+    // const target = event.target;
+    // remove class from last letter
+    if (game.letterCoordsClicked.length > 0) {
+      const lastLetterCoords =
+        game.letterCoordsClicked[game.letterCoordsClicked.length - 1];
+      const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
+      const lastLetterElement = document.getElementById(lastLetterId);
+      lastLetterElement.classList.remove("game-tile-last");
+      lastLetterElement.classList.add("game-tile-selected");
+    }
+    target.classList.remove("game-tile-last");
+    const guessElement = document.getElementById("current-word");
+    guessElement.textContent = game.guessWord;
+  } else {
+    alert("Invalid letter! Select the last letter.");
+  }
 }
 
 async function setupGame(board, category) {
