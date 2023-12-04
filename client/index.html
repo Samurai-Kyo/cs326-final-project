@@ -128,7 +128,17 @@
               
             </div>
           </div>
-          <div class="row justify-content-center mt-2">
+          <div class="row m-2">
+            <div class="col-12 mb-2">
+              <span class="fs-5 fw-bold">Current Word: </span>
+              <span class="fs-5" id="current-word"></span>
+            </div>
+            <div class="input-group justify-content-center">
+              <button class="btn btn-outline-danger" type="button" id="clear-word">Clear Word</button>
+              <button class="btn btn-success bg-body-sucess" type="button" id="submit-word">Submit Word</button>
+            </div>
+          </div>
+          <div class="row justify-content-center m-2">
             <!-- FIXME: update aria labels and progress bar width in JS -->
             <div
               id="timer"

@@ -1,45 +1,51 @@
-body, html {
-    height: 100%;
+body,
+html {
+  height: 100%;
 }
 
 .bg-seagreen {
-    background-color: seagreen;
+  background-color: seagreen;
 }
 
 .checkDiv {
-    background-color: red;
-    border: 2px dotted black;
+  background-color: red;
+  border: 2px dotted black;
 }
 
 .game-tile {
+  background-color: rgb(173, 230, 185);
+  min-width: 40px;
+  min-height: 40px;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.game-tile-selected {
     background-color: lightblue;
-    min-width: 40px; /* Set a minimum width for each tile */
-    min-height: 40px; /* Set a minimum height for each tile */
-  }
+}
 
 .game-tile:hover {
-    background-color: lightcoral;
+  background-color: lightcoral;
+  cursor: pointer;
+  transform: scale(1.2);
 }
 
 .progress-bar {
-    width: 75%;
-    /* border: 1px solid black; */
+  width: 75%;
+  /* border: 1px solid black; */
 }
 
 #timer {
-    width: 75%;
-    /* border: 1px solid black; */
+  width: 75%;
+  border: 1px solid black;
 }
 
 #right-content {
-    border-top: 1px solid black;
-} 
-
-#left-content {
-    border-top: 1px solid black;
-    border-right: 1px solid black;
+  border-top: 1px solid black;
 }
 
-/* div {
-    border: 2px solid black;
-} */
+#left-content {
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+}

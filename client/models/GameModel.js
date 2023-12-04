@@ -1,11 +1,13 @@
 class Game{
-    constructor(board, categories) {
+    constructor(board, category) {
         this.board = board.board;
-        this.category = categories.currentCategory;
+        this.category = category;
         this.words = board.words;
-        console.log(this.words);
         this.size = board.size;
         this.score = 0;
+        this.guessWord = "";
+        this.letterCoordsClicked = {};
+        this.foundWords = [];
     }
 }
 

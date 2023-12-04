@@ -28,7 +28,6 @@ async function fetchBoard(size, category_id) {
 async function setupBoard(size, category_id) {
   try {
     const boardData = await fetchBoard(size, category_id);
-    console.log(JSON.stringify(boardData));
     return new Board(boardData.board, size, boardData.words);
   } catch (error) {
     console.log(error);

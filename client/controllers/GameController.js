@@ -1,18 +1,72 @@
 import Game from "../models/GameModel.js";
 import { prettifyWord } from "../utils/utils.js";
 
-async function setupGame(board, categories) {
-  const game = new Game(board, categories);
+let game = null;
+
+// function handleGuess(game, guess) {
+//   if (game.words.includes(guess)) {
+//     game.foundWords.push(guess);
+//     game.score += guess.length;
+//     const wordBankElement = document.getElementById("word-bank");
+//     const wordElements = wordBankElement.children;
+//     for (let i = 0; i < wordElements.length; i++) {
+//       const element = wordElements[i];
+//       if (element.textContent === guess) {
+//         element.classList.add("word-found");
+//       }
+//     }
+//   }
+//   game.guessWord = "";
+// }
+
+function letterGuess(event) {
+  const target = event.target;
+  const id = target.id;
+  const x = parseInt(id[0]);
+  const y = parseInt(id[2]);
+  const letter = game.board[x][y];
+
+  //FIXME: need to fix
+  const letterCoords = game.letterCoordsClicked[letter];
+  if (letterCoords && letterCoords.some((coord) => coord.x === x && coord.y === y)) {
+    let letterCoord = letterCoords.find((coord) => coord.x === x && coord.y === y);
+    letterCoords.splice(letterCoords.indexOf(letterCoord), 1);
+    removeLetterFromGuess(event, letterCoord);
+
+}
+
+function addLetterToGuess(event) {
+  const target = event.target;
+  target.classList.add("game-tile-selected");
+  const letter = target.textContent;
+  game.guessWord = game.guessWord + letter;
+  console.log(game.guessWord);
+  const guessElement = document.getElementById("current-word");
+  guessElement.textContent = game.guessWord;
+  // handleGuess(game, game.guessWord);
+}
+
+function removeLetterFromGuess(event) {
+  const target = event.target;
+  target.classList.remove("game-tile-selected");
+  const letter = target.textContent;
+  game.guessWord = game.guessWord.replace(letter, "");
+  const guessElement = document.getElementById("current-word");
+  guessElement.textContent = game.guessWord;
+}
+
+async function setupGame(board, category) {
+  const newGame = new Game(board, category);
 
   const currentCategoryElement = document.getElementById("current-category");
-  currentCategoryElement.textContent = prettifyWord(game.category);
+  currentCategoryElement.textContent = prettifyWord(newGame.category);
 
   const gameBoardElement = document.getElementById("game-board");
-  for (let i = 0; i < game.size; i++) {
+  for (let i = 0; i < newGame.size; i++) {
     const row = document.createElement("div");
     row.classList.add("row", "flex-nowrap");
 
-    for (let j = 0; j < game.size; j++) {
+    for (let j = 0; j < newGame.size; j++) {
       const column = document.createElement("div");
       column.classList.add(
         "col",
@@ -29,77 +83,28 @@ async function setupGame(board, categories) {
         "text-uppercase"
       );
       column.id = `${i}-${j}`;
-      column.textContent = game.board[i][j]; // Replace with your actual content
+      column.textContent = newGame.board[i][j];
+
+      column.addEventListener("click", letterGuess);
+
+      // column.textContent = game.board[i][j]; // Replace with your actual content
       row.appendChild(column);
     }
 
     gameBoardElement.appendChild(row);
   }
 
-  // const gameBoard = document.getElementById("game-board");
-  // gameBoard.addEventListener("click", (event) => {
-  //     const tile = event.target;
-  //     if (tile.classList.contains("game-tile")) {
-  //         const tileId = tile.id.split("-");
-  //         const row = parseInt(tileId[0]);
-  //         const column = parseInt(tileId[1]);
-  //         const word = game.words[row][column];
-  //         const wordElement = document.getElementById("current-word");
-  //         wordElement.textContent = word;
-  //         game.currentWord = word;
-  //     }
-  // });
-
   const wordBankElement = document.getElementById("word-bank");
-  for (let i = 0; i < game.words.length; i++) {
-    const word = game.words[i];
+  for (let i = 0; i < newGame.words.length; i++) {
+    const word = newGame.words[i];
     const div = document.createElement("div");
     div.classList.add("word-bank-word", "col-6");
     div.textContent = word;
     wordBankElement.appendChild(div);
   }
 
-  // const submitButton = document.getElementById("submit-word");
-  // submitButton.addEventListener("click", (event) => {
-  //     event.preventDefault();
-  //     const wordElement = document.getElementById("current-word");
-  //     const word = wordElement.textContent;
-  //     if (word.length > 0) {
-  //         const wordList = document.getElementById("word-list");
-  //         const li = document.createElement("li");
-  //         li.classList.add("list-group-item");
-  //         li.textContent = word;
-  //         wordList.appendChild(li);
-  //         game.score += word.length;
-  //         const scoreElement = document.getElementById("score");
-  //         scoreElement.textContent = game.score;
-  //         wordElement.textContent = "";
-  //         game.currentWord = "";
-  //     }
-  // });
-
-  // const clearButton = document.getElementById("clear-word");
-  // clearButton.addEventListener("click", (event) => {
-  //     event.preventDefault();
-  //     const wordElement = document.getElementById("current-word");
-  //     wordElement.textContent = "";
-  //     game.currentWord = "";
-  // });
-
-  // const resetButton = document.getElementById("reset-game");
-  // resetButton.addEventListener("click", (event) => {
-  //     event.preventDefault();
-  //     const wordElement = document.getElementById("current-word");
-  //     wordElement.textContent = "";
-  //     game.currentWord = "";
-  //     const wordList = document.getElementById("word-list");
-  //     wordList.innerHTML = "";
-  //     game.score = 0;
-  //     const scoreElement = document.getElementById("score");
-  //     scoreElement.textContent = game.score;
-  // });
-
-  return game;
+  game = newGame;
+  return newGame;
 }
 
 export { setupGame };
