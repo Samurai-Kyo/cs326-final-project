@@ -28,11 +28,16 @@ function letterGuess(event) {
 
   //FIXME: need to fix
   const letterCoords = game.letterCoordsClicked[letter];
-  if (letterCoords && letterCoords.some((coord) => coord.x === x && coord.y === y)) {
-    let letterCoord = letterCoords.find((coord) => coord.x === x && coord.y === y);
+  if (
+    letterCoords &&
+    letterCoords.some((coord) => coord.x === x && coord.y === y)
+  ) {
+    let letterCoord = letterCoords.find(
+      (coord) => coord.x === x && coord.y === y
+    );
     letterCoords.splice(letterCoords.indexOf(letterCoord), 1);
     removeLetterFromGuess(event, letterCoord);
-
+  }
 }
 
 function addLetterToGuess(event) {
