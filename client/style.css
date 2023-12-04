@@ -22,11 +22,11 @@ html {
 }
 
 .game-tile-last {
-  background-color: rgb(173, 230, 185);
+  background-color: rgb(103, 156, 170);
 }
 
 .game-tile-selected {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 
 .game-tile:hover {

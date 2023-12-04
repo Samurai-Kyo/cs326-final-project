@@ -3,21 +3,24 @@ import { prettifyWord } from "../utils/utils.js";
 
 let game = null;
 
-// function handleGuess(game, guess) {
-//   if (game.words.includes(guess)) {
-//     game.foundWords.push(guess);
-//     game.score += guess.length;
-//     const wordBankElement = document.getElementById("word-bank");
-//     const wordElements = wordBankElement.children;
-//     for (let i = 0; i < wordElements.length; i++) {
-//       const element = wordElements[i];
-//       if (element.textContent === guess) {
-//         element.classList.add("word-found");
-//       }
-//     }
-//   }
-//   game.guessWord = "";
-// }
+// check with backend if word is valid
+function submitWord() {
+  alert("FIXME!");
+}
+
+function clearWord() {
+  const guessElement = document.getElementById("current-word");
+  guessElement.textContent = "";
+  game.clearGuess();
+  const lastLetterElement = document.querySelector(".game-tile-last");
+  if (lastLetterElement) {
+    lastLetterElement.classList.remove("game-tile-last");
+  }
+  const selectedLetters = document.querySelectorAll(".game-tile-selected");
+  selectedLetters.forEach((letter) => {
+    letter.classList.remove("game-tile-selected");
+  });
+}
 
 function letterGuess(event) {
   const target = event.target;
@@ -30,19 +33,17 @@ function letterGuess(event) {
   };
 
   if (game.letterAlreadyClicked(coords)) {
-    removeLetterFromGuess(target, coords);
+    removeLastLetterFromGuess(target, coords);
   } else {
     addLetterToGuess(target, coords);
   }
 }
 
 function addLetterToGuess(target, coords) {
-  // FIXME: this is not working
   if (game.addLetterToGuess(coords)) {
-    // const target = event.target;
-    if (game.letterCoordsClicked.length > 0) {
+    if (game.letterCoordsClicked.length > 1) {
       const lastLetterCoords =
-        game.letterCoordsClicked[game.letterCoordsClicked.length - 1];
+        game.letterCoordsClicked[game.letterCoordsClicked.length - 2];
       const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
       const lastLetterElement = document.getElementById(lastLetterId);
       lastLetterElement.classList.remove("game-tile-last");
@@ -51,30 +52,26 @@ function addLetterToGuess(target, coords) {
     target.classList.add("game-tile-last");
     const guessElement = document.getElementById("current-word");
     guessElement.textContent = game.guessWord;
-    // todo: handleGuess(game, game.guessWord);
   } else {
-    alert("Invalid letter! Select a letter adjacent to the last letter.");
+    alert("Invalid letter! Can only select adjacent letters.");
   }
 }
 
-function removeLetterFromGuess(target, coords) {
-  // FIXME: this is not working
+function removeLastLetterFromGuess(target, coords) {
   if (game.removeLetterFromGuess(coords)) {
-    // const target = event.target;
-    // remove class from last letter
     if (game.letterCoordsClicked.length > 0) {
       const lastLetterCoords =
         game.letterCoordsClicked[game.letterCoordsClicked.length - 1];
       const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
       const lastLetterElement = document.getElementById(lastLetterId);
-      lastLetterElement.classList.remove("game-tile-last");
-      lastLetterElement.classList.add("game-tile-selected");
+      lastLetterElement.classList.add("game-tile-last");
+      lastLetterElement.classList.remove("game-tile-selected");
     }
     target.classList.remove("game-tile-last");
     const guessElement = document.getElementById("current-word");
     guessElement.textContent = game.guessWord;
   } else {
-    alert("Invalid letter! Select the last letter.");
+    alert("Invalid letter! Can only remove the last letter.");
   }
 }
 
@@ -107,13 +104,9 @@ async function setupGame(board, category) {
       );
       column.id = `${i}-${j}`;
       column.textContent = newGame.board[i][j];
-
       column.addEventListener("click", letterGuess);
-
-      // column.textContent = game.board[i][j]; // Replace with your actual content
       row.appendChild(column);
     }
-
     gameBoardElement.appendChild(row);
   }
 
@@ -126,6 +119,12 @@ async function setupGame(board, category) {
     wordBankElement.appendChild(div);
   }
 
+  const submitButton = document.getElementById("submit-word");
+  const clearButton = document.getElementById("clear-word");
+
+  submitButton.addEventListener("click", submitWord);
+  clearButton.addEventListener("click", clearWord);
+  
   game = newGame;
   return newGame;
 }

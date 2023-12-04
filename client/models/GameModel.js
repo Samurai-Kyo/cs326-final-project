@@ -60,12 +60,16 @@ class Game {
 
   removeLetterFromGuess(coords) {
     if (this.checkValidLetter(coords) && this.isLastLetter(coords)) {
-      const letter = coords.letter;
       this.letterCoordsClicked.pop();
       this.guessWord = this.guessWord.slice(0, -1);
       return true;
     }
     return false;
+  }
+
+  clearGuess() {
+    this.letterCoordsClicked = [];
+    this.guessWord = "";
   }
 }
 
