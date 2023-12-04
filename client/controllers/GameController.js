@@ -74,9 +74,12 @@ function tileClicked(event) {
   );
 
   const currentLetterCoord = GAME.letterCoords.lastLetterCoords();
+  // console.log(`Current letter: ${currentLetterCoord.x}-${currentLetterCoord.y}`);
   if (GAME.addLetterToGuess(coords)) {
+    console.log(`Adding letter: ${coords.x}-${coords.y}`);
     addLetterToGuess(target, currentLetterCoord);
   } else if (GAME.removeLetterFromGuess(coords)) {
+    console.log(`Removing letter: ${coords.x}-${coords.y}`);
     removeLastLetterFromGuess(target);
   } else {
     alert("Select adjacent letters to add or last letter to remove.");
@@ -130,6 +133,7 @@ async function setupGame(board, category) {
 
   const currentCategoryElement = document.getElementById("current-category");
   currentCategoryElement.textContent = prettifyWord(GAME.category);
+  console.log(GAME.category);
 
   const gameBoardElement = document.getElementById("game-board");
   for (let i = 0; i < GAME.boardSize; i++) {
@@ -152,6 +156,7 @@ async function setupGame(board, category) {
         "font-weight-bold",
         "text-uppercase"
       );
+      //FIXME: is a problem if the board size is greater than 9
       column.id = `${i}-${j}`;
       column.textContent = GAME.board[i][j];
       column.addEventListener("click", tileClicked);
@@ -170,7 +175,6 @@ async function setupGame(board, category) {
     wordBankElement.appendChild(div);
   }
 
-  const submitButton = document.getElementById("submit-word");
   const clearButton = document.getElementById("clear-word");
 
   clearButton.addEventListener("click", clearWord);

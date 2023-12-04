@@ -4,7 +4,8 @@ import { setupGame } from './controllers/GameController.js';
 
 async function init() {
   const categories = await setupCategories();
-  const board = await setupBoard(4, 1);
+  categories.setCurrentCategory("pokemon");
+  const board = await setupBoard(9, categories.currentCategoryId);
   const game = await setupGame(board, categories.currentCategory);
 }
 
