@@ -27,16 +27,22 @@ function letterGuess(event) {
   const letter = game.board[x][y];
 
   //FIXME: need to fix
-  const letterCoords = game.letterCoordsClicked[letter];
-  if (
-    letterCoords &&
-    letterCoords.some((coord) => coord.x === x && coord.y === y)
-  ) {
-    let letterCoord = letterCoords.find(
-      (coord) => coord.x === x && coord.y === y
-    );
-    letterCoords.splice(letterCoords.indexOf(letterCoord), 1);
-    removeLetterFromGuess(event, letterCoord);
+  // const letterCoords = game.letterCoordsClicked[letter];
+  // if (
+  //   letterCoords &&
+  //   letterCoords.some((coord) => coord.x === x && coord.y === y)
+  // ) {
+  //   let letterCoord = letterCoords.find(
+  //     (coord) => coord.x === x && coord.y === y
+  //   );
+  //   letterCoords.splice(letterCoords.indexOf(letterCoord), 1);
+  //   removeLetterFromGuess(event, letterCoord);
+  // }
+
+  if (game.guessWord.includes(letter)) {
+    removeLetterFromGuess(event);
+  } else {
+    addLetterToGuess(event);
   }
 }
 
@@ -45,9 +51,8 @@ function addLetterToGuess(event) {
   target.classList.add("game-tile-selected");
   const letter = target.textContent;
   game.guessWord = game.guessWord + letter;
-  console.log(game.guessWord);
   const guessElement = document.getElementById("current-word");
-  guessElement.textContent = game.guessWord;
+  guessElement.textContent = prettifyWord(game.guessWord);
   // handleGuess(game, game.guessWord);
 }
 
@@ -57,7 +62,7 @@ function removeLetterFromGuess(event) {
   const letter = target.textContent;
   game.guessWord = game.guessWord.replace(letter, "");
   const guessElement = document.getElementById("current-word");
-  guessElement.textContent = game.guessWord;
+  guessElement.textContent = prettifyWord(game.guessWord);
 }
 
 async function setupGame(board, category) {
