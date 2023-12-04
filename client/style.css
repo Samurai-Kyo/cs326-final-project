@@ -22,15 +22,15 @@ html {
 }
 
 .game-tile-head {
-  box-shadow: inset 0 0 100px rgba(103, 156, 170, 1);
+  box-shadow: inset 0 0 100px 100px rgba(103, 156, 170, 1);
 }
 
 .game-tile-clicked {
-  box-shadow: inset 0 0 100px rgba(173, 216, 230, 1); 
+  box-shadow: inset 0 0 100px 100px rgba(173, 216, 230, 1); 
 }
 
 .game-tile:hover {
-  background-color: lightcoral;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transform: scale(1.2);
 }
@@ -43,18 +43,37 @@ html {
   animation: game-tile-animate 0.5s;
 }
 
-@keyframes game-tile-animate {
+.game-tile-invalid {
+  /* play twice */
+  animation: animate-invalid 0.5s 2;
+  background-color: rgb(243, 64, 64);
+}
+
+
+@keyframes animate-invalid {
   0% {
     transform: scale(1);
-    background-color: rgb(252, 185, 123);
   }
   50% {
-    transform: scale(1.1);
-    background-color: rgb(252, 185, 123);
+    transform: scale(1.2);
   }
   100% {
     transform: scale(1);
-    background-color: rgb(252, 185, 123);
+  }
+}
+
+@keyframes game-tile-animate {
+  0% {
+    transform: scale(1);
+    /* rotate: 0deg; */
+  }
+  50% {
+    transform: scale(1.2);
+    /* rotate: 180deg; */
+  }
+  100% {
+    transform: scale(1);
+    /* rotate: 360deg; */
   }
 }
 

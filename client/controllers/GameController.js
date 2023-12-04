@@ -21,7 +21,6 @@ async function submitWord() {
     const scoreElement = document.getElementById("score");
     scoreElement.textContent = GAME.score;
 
-    
     clearWord();
     // change each tile found to have a different color
     for (const coord of coords) {
@@ -67,25 +66,43 @@ function tileClicked(event) {
   const target = event.target;
   const id = target.id;
 
-  const coords = new LetterCoord(
-    target.textContent,
-    parseInt(id[0]),
-    parseInt(id[2])
-  );
+  const hyphenIndex = id.indexOf("-");
+  const x = parseInt(id.slice(0, hyphenIndex));
+  const y = parseInt(id.slice(hyphenIndex + 1));
+  const coords = new LetterCoord(target.textContent, x, y);
+
+  // console.log(`Clicked: ${coords.x}-${coords.y}`);
 
   const currentLetterCoord = GAME.letterCoords.lastLetterCoords();
   // console.log(`Current letter: ${currentLetterCoord.x}-${currentLetterCoord.y}`);
   if (GAME.addLetterToGuess(coords)) {
-    console.log(`Adding letter: ${coords.x}-${coords.y}`);
+    // console.log(`Adding letter: ${coords.x}-${coords.y}`);
     addLetterToGuess(target, currentLetterCoord);
   } else if (GAME.removeLetterFromGuess(coords)) {
-    console.log(`Removing letter: ${coords.x}-${coords.y}`);
+    // console.log(`Removing letter: ${coords.x}-${coords.y}`);
     removeLastLetterFromGuess(target);
   } else {
-    alert("Select adjacent letters to add or last letter to remove.");
+    // alert("Select adjacent letters to add or last letter to remove.");
+    animateInvalidLetter(target);
   }
 
   submitWord();
+}
+
+async function animateInvalidLetter(target) {
+  const animate = async () => {
+    target.classList.add("game-tile-invalid");
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    target.classList.remove("game-tile-invalid");
+  };
+
+  if (target.classList.contains("game-tile-clicked")) {
+    target.classList.remove("game-tile-clicked");
+    await animate();
+    target.classList.add("game-tile-clicked");
+  } else {
+    await animate();
+  }
 }
 
 /**
@@ -133,7 +150,7 @@ async function setupGame(board, category) {
 
   const currentCategoryElement = document.getElementById("current-category");
   currentCategoryElement.textContent = prettifyWord(GAME.category);
-  console.log(GAME.category);
+  // console.log(GAME.category);
 
   const gameBoardElement = document.getElementById("game-board");
   for (let i = 0; i < GAME.boardSize; i++) {
