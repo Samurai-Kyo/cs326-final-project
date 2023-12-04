@@ -28,7 +28,8 @@ async function fetchBoard(size, category_id) {
 async function setupBoard(size, category_id) {
   try {
     const boardData = await fetchBoard(size, category_id);
-    return new Board(boardData.board, size, boardData.words);
+    const words = boardData.words.map((word) => word.toUpperCase());
+    return new Board(boardData.board, size, words);
   } catch (error) {
     console.log(error);
   }

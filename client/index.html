@@ -90,16 +90,16 @@
                 Categories
               </a>
               <!-- FIXME: these buttons need to change the board, add categories dynamically from backend -->
-              <ul class="dropdown-menu" id="categories">
-                
-              </ul>
+              <ul class="dropdown-menu" id="categories"></ul>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-0 justify-content-end">
-          <li class="nav-item">
-            <a class="nav-link text-center bg-white rounded-2" href="#">Help</a>
-          </li>
-        </ul>
+            <li class="nav-item">
+              <a class="nav-link text-center bg-white rounded-2" href="#"
+                >Help</a
+              >
+            </li>
+          </ul>
           <!-- <form class="d-flex" role="search">
               <input
                 class="form-control me-2"
@@ -116,7 +116,10 @@
       <!-- Main Content -->
       <div class="row flex-grow-1 m-0 text-center">
         <!-- Left half -->
-        <div class="col-12 col-sm-8 p-2 align-items-center d-flex flex-column justify-content-center" id="left-content">
+        <div
+          class="col-12 col-sm-8 p-2 align-items-center d-flex flex-column justify-content-center"
+          id="left-content"
+        >
           <div class="row">
             <div class="col-12">
               <span class="fs-3 fw-bold">Category: </span>
@@ -124,9 +127,7 @@
             </div>
           </div>
           <div class="row p-1">
-            <div class="" id="game-board">
-              
-            </div>
+            <div class="" id="game-board"></div>
           </div>
           <div class="row m-2">
             <div class="col-12 mb-2">
@@ -134,12 +135,29 @@
               <span class="fs-5" id="current-word"></span>
             </div>
             <div class="input-group justify-content-center">
-              <button class="btn btn-outline-danger" type="button" id="clear-word">Clear Word</button>
-              <button class="btn btn-success bg-body-sucess" type="button" id="submit-word">Submit Word</button>
+              <button
+                class="btn btn-outline-danger"
+                type="button"
+                id="clear-word"
+              >
+                Clear Word
+              </button>
+              <button
+                class="btn btn-success bg-body-sucess"
+                type="button"
+                id="submit-score"
+              >
+                Submit Score
+              </button>
             </div>
           </div>
-          <div class="row justify-content-center m-2">
-            <!-- FIXME: update aria labels and progress bar width in JS -->
+          <div class="row m-2">
+            <div class="col-12">
+              <span class="fs-5 fw-bold">Score: </span>
+              <span class="fs-5" id="score">0</span>
+            </div>
+          </div>
+          <!-- <div class="row justify-content-center m-2">
             <div
               id="timer"
               class="progress p-0"
@@ -155,15 +173,19 @@
               <span class="fs-5 fw-bold">15</span>
               <span class="fs-5" id="category"> secs remaining</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- Right half -->
-        <div class="col-12 col-sm-4 p-2 align-items-center d-flex flex-column justify-content-center" id="right-content">
+        <div
+          class="col-12 col-sm-4 p-2 align-items-center d-flex flex-column justify-content-center"
+          id="right-content"
+        >
           <div class="row">
-            <span class="fs-3 fw-bold text-decoration-underline">Word Bank</span>
+            <span class="fs-3 fw-bold text-decoration-underline"
+              >Word Bank</span
+            >
           </div>
-          <div class="row m-0 p-1" id="word-bank">
-          </div>
+          <div class="row m-0 p-1" id="word-bank"></div>
         </div>
       </div>
     </div>

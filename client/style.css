@@ -21,12 +21,12 @@ html {
   padding: 0;
 }
 
-.game-tile-last {
-  background-color: rgb(103, 156, 170);
+.game-tile-head {
+  box-shadow: inset 0 0 100px rgba(103, 156, 170, 1);
 }
 
-.game-tile-selected {
-  background-color: lightblue;
+.game-tile-clicked {
+  box-shadow: inset 0 0 100px rgba(173, 216, 230, 1); 
 }
 
 .game-tile:hover {
@@ -35,9 +35,45 @@ html {
   transform: scale(1.2);
 }
 
-.progress-bar {
-  width: 75%;
-  /* border: 1px solid black; */
+.game-tile-found {
+  background-color: rgb(230, 226, 173);
+}
+
+.game-tile-animate {
+  animation: game-tile-animate 0.5s;
+}
+
+@keyframes game-tile-animate {
+  0% {
+    transform: scale(1);
+    background-color: rgb(252, 185, 123);
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: rgb(252, 185, 123);
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgb(252, 185, 123);
+  }
+}
+
+.word-found {
+  animation: word-found 0.5s;
+  color: red; 
+  text-decoration: line-through;
+}
+
+@keyframes word-found {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 #timer {

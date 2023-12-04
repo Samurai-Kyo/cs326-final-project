@@ -1,76 +1,139 @@
-class Game {
-  constructor(board, category) {
-    this.board = board.board;
-    this.category = category;
-    this.words = board.words;
-    this.size = board.size;
+import { LetterCoords, LetterCoord } from "./CoordsModel.js";
+
+export class Game {
+  constructor(user = "") {
     this.score = 0;
     this.guessWord = "";
-    this.letterCoordsClicked = [];
     this.foundWords = [];
+    this.user = user;
+    this.letterScores = {
+      A: 10,
+      B: 3,
+      C: 3,
+      D: 6,
+      E: 10,
+      F: 3,
+      G: 4,
+      H: 3,
+      I: 9,
+      J: 1,
+      K: 2,
+      L: 5,
+      M: 3,
+      N: 5,
+      O: 8,
+      P: 3,
+      Q: 1,
+      R: 7,
+      S: 7,
+      T: 7,
+      U: 4,
+      V: 2,
+      W: 2,
+      X: 1,
+      Y: 2,
+      Z: 1,
+    };
+
+    this.letterCoords = new LetterCoords();
   }
 
-  checkValidLetter(coords) {
-    return this.board[coords.x][coords.y] === coords.letter;
+  newGame(board, category) {
+    this.category = category;
+    this.board = board.board;
+    this.boardSize = board.size;
+    this.words = board.words;
+    this.foundWords = [];
+    this.score = 0;
+    this.guessWord = "";
+    this.letterCoords = new LetterCoords();
   }
 
-  adjacentToLastLetter(coords) {
-    if (this.letterCoordsClicked.length === 0) {
+  /**
+   * Checks if a word is valid.
+   * @param {string} word
+   * @returns if the word is valid
+   */
+  isValidWord(word) {
+    return this.words.includes(word);
+  }
+
+  /**
+   * Checks if a word has already been found.
+   * @param {string} word
+   * @returns if the word has already been found
+   */
+  isFoundWord(word) {
+    return this.foundWords.includes(word);
+  }
+
+  /**
+   * Adds a word to the found words list.
+   * @param {string} word
+   * @returns a boolean if the word was added to the found words list
+   */
+  addFoundWord(word) {
+    if (!this.isFoundWord(word) && this.isValidWord(word)) {
+      this.foundWords.push(word);
+      this.score += this._calculateScore(word);
       return true;
-    }
-
-    const lastCoords =
-      this.letterCoordsClicked[this.letterCoordsClicked.length - 1];
-    const xDiff = Math.abs(coords.x - lastCoords.x);
-    const yDiff = Math.abs(coords.y - lastCoords.y);
-
-    return xDiff <= 1 && yDiff <= 1;
-  }
-
-  letterAlreadyClicked(coords) {
-    return this.letterCoordsClicked.some(
-      (coord) => coord.x === coords.x && coord.y === coords.y
-    );
-  }
-
-  addLetterToGuess(coords) {
-    if (
-      this.checkValidLetter(coords) &&
-      this.adjacentToLastLetter(coords) &&
-      !this.letterAlreadyClicked(coords)
-    ) {
-      const letter = coords.letter;
-      this.letterCoordsClicked.push(coords);
-      this.guessWord = this.guessWord + letter;
-        return true;
     }
     return false;
   }
 
-  isLastLetter(coords) {
-    if (this.letterCoordsClicked.length === 0) {
-      return false;
+  /**
+   * Calculates the score of a word.
+   * @param {string} word
+   * @returns the score of the word
+   */
+  _calculateScore(word) {
+    let score = 0;
+    for (const letter of word) {
+      score += this.letterScores[letter];
     }
-
-    const lastCoords =
-      this.letterCoordsClicked[this.letterCoordsClicked.length - 1];
-
-    return lastCoords.x === coords.x && lastCoords.y === coords.y;
+    return score;
   }
 
+  /**
+   * Adds a letter to the guess word.
+   * @param {LetterCoord} coords
+   * @returns a boolean if the letter was added to the guess word
+   */
+  addLetterToGuess(coords) {
+    if (this.letterCoords.addLetterCoords(coords)) {
+      const letter = coords.letter;
+      this.guessWord = this.guessWord + letter;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Removes the last letter from the guess word.
+   * @param {LetterCoord} coords
+   * @returns a boolean if the letter was removed from the guess word
+   */
   removeLetterFromGuess(coords) {
-    if (this.checkValidLetter(coords) && this.isLastLetter(coords)) {
-      this.letterCoordsClicked.pop();
+    if (this.letterCoords.removeLastLetter(coords)) {
       this.guessWord = this.guessWord.slice(0, -1);
       return true;
     }
     return false;
   }
 
+  /**
+   * Clears the guess word and the clicked letter coordinates.
+   */
   clearGuess() {
-    this.letterCoordsClicked = [];
     this.guessWord = "";
+    this.letterCoords.clear();
+  }
+
+  /**
+   * Gets the size of the clicked letter coordinates.
+   * @returns the size of the clicked letter coordinates
+   */
+  get clickedCoordsSize() {
+    return this.letterCoords.size();
   }
 }
-
-export default Game;

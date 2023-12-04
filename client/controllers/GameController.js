@@ -1,92 +1,142 @@
-import Game from "../models/GameModel.js";
+import { Game } from "../models/GameModel.js";
+import { LetterCoord } from "../models/CoordsModel.js";
 import { prettifyWord } from "../utils/utils.js";
 
-let game = null;
+const GAME = new Game();
 
-// check with backend if word is valid
-function submitWord() {
-  alert("FIXME!");
+/**
+ * Submits the current word.
+ */
+async function submitWord() {
+  const guessElement = document.getElementById("current-word");
+  const guess = guessElement.textContent;
+  if (GAME.addFoundWord(guess)) {
+    // get all tiles that are part of the word and add a class to them
+    const coords = GAME.letterCoords.letterCoordsClicked;
+
+    // cross out the word in the word bank
+    const index = GAME.words.indexOf(guess);
+    const wordElement = document.getElementById(`word-${index}`);
+    wordElement.classList.add("word-found");
+    const scoreElement = document.getElementById("score");
+    scoreElement.textContent = GAME.score;
+
+    
+    clearWord();
+    // change each tile found to have a different color
+    for (const coord of coords) {
+      const id = `${coord.x}-${coord.y}`;
+      const tile = document.getElementById(id);
+      tile.classList.add("game-tile-found");
+      tile.classList.add("game-tile-animate");
+    }
+
+    // wait for animation to finish
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // remove animation class after animation is done
+    for (const coord of coords) {
+      const id = `${coord.x}-${coord.y}`;
+      const tile = document.getElementById(id);
+      tile.classList.remove("game-tile-animate");
+    }
+  }
 }
 
+/**
+ * Clears the current word.
+ */
 function clearWord() {
   const guessElement = document.getElementById("current-word");
   guessElement.textContent = "";
-  game.clearGuess();
-  const lastLetterElement = document.querySelector(".game-tile-last");
+  GAME.clearGuess();
+  const lastLetterElement = document.querySelector(".game-tile-head");
   if (lastLetterElement) {
-    lastLetterElement.classList.remove("game-tile-last");
+    lastLetterElement.classList.remove("game-tile-head");
   }
-  const selectedLetters = document.querySelectorAll(".game-tile-selected");
+  const selectedLetters = document.querySelectorAll(".game-tile-clicked");
   selectedLetters.forEach((letter) => {
-    letter.classList.remove("game-tile-selected");
+    letter.classList.remove("game-tile-clicked");
   });
 }
 
-function letterGuess(event) {
+/**
+ * Handles the click event on a tile.
+ * @param {game-tile} event
+ */
+function tileClicked(event) {
   const target = event.target;
   const id = target.id;
 
-  const coords = {
-    letter: target.textContent,
-    x: parseInt(id[0]),
-    y: parseInt(id[2]),
-  };
+  const coords = new LetterCoord(
+    target.textContent,
+    parseInt(id[0]),
+    parseInt(id[2])
+  );
 
-  if (game.letterAlreadyClicked(coords)) {
-    removeLastLetterFromGuess(target, coords);
+  const currentLetterCoord = GAME.letterCoords.lastLetterCoords();
+  if (GAME.addLetterToGuess(coords)) {
+    addLetterToGuess(target, currentLetterCoord);
+  } else if (GAME.removeLetterFromGuess(coords)) {
+    removeLastLetterFromGuess(target);
   } else {
-    addLetterToGuess(target, coords);
+    alert("Select adjacent letters to add or last letter to remove.");
   }
+
+  submitWord();
 }
 
-function addLetterToGuess(target, coords) {
-  if (game.addLetterToGuess(coords)) {
-    if (game.letterCoordsClicked.length > 1) {
-      const lastLetterCoords =
-        game.letterCoordsClicked[game.letterCoordsClicked.length - 2];
-      const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
-      const lastLetterElement = document.getElementById(lastLetterId);
-      lastLetterElement.classList.remove("game-tile-last");
-      lastLetterElement.classList.add("game-tile-selected");
-    }
-    target.classList.add("game-tile-last");
-    const guessElement = document.getElementById("current-word");
-    guessElement.textContent = game.guessWord;
-  } else {
-    alert("Invalid letter! Can only select adjacent letters.");
+/**
+ * Changes the style of the tile to show it is selected.
+ * @param {game-tile} target
+ * @param {LetterCoord} lastLetterCoord
+ */
+function addLetterToGuess(target, lastLetterCoord) {
+  if (lastLetterCoord) {
+    const lastLetterId = `${lastLetterCoord.x}-${lastLetterCoord.y}`;
+    const lastLetterElement = document.getElementById(lastLetterId);
+    lastLetterElement.classList.remove("game-tile-head");
+    lastLetterElement.classList.add("game-tile-clicked");
   }
+  target.classList.add("game-tile-head");
+  const guessElement = document.getElementById("current-word");
+  guessElement.textContent = GAME.guessWord;
 }
 
-function removeLastLetterFromGuess(target, coords) {
-  if (game.removeLetterFromGuess(coords)) {
-    if (game.letterCoordsClicked.length > 0) {
-      const lastLetterCoords =
-        game.letterCoordsClicked[game.letterCoordsClicked.length - 1];
-      const lastLetterId = `${lastLetterCoords.x}-${lastLetterCoords.y}`;
-      const lastLetterElement = document.getElementById(lastLetterId);
-      lastLetterElement.classList.add("game-tile-last");
-      lastLetterElement.classList.remove("game-tile-selected");
-    }
-    target.classList.remove("game-tile-last");
-    const guessElement = document.getElementById("current-word");
-    guessElement.textContent = game.guessWord;
-  } else {
-    alert("Invalid letter! Can only remove the last letter.");
+/**
+ * Changes the style of the tile to show it is unselected.
+ * @param {game-tile} target
+ */
+function removeLastLetterFromGuess(target) {
+  const lastLetterCoord = GAME.letterCoords.lastLetterCoords();
+  if (lastLetterCoord) {
+    const lastLetterId = `${lastLetterCoord.x}-${lastLetterCoord.y}`;
+    const lastLetterElement = document.getElementById(lastLetterId);
+    lastLetterElement.classList.remove("game-tile-clicked");
+    lastLetterElement.classList.add("game-tile-head");
   }
+  target.classList.remove("game-tile-head");
+  const guessElement = document.getElementById("current-word");
+  guessElement.textContent = GAME.guessWord;
 }
 
+/**
+ * Sets up the game board.
+ * @param {Board} board The board object
+ * @param {Category} category The category object
+ * @returns The game object
+ */
 async function setupGame(board, category) {
-  const newGame = new Game(board, category);
+  GAME.newGame(board, category);
 
   const currentCategoryElement = document.getElementById("current-category");
-  currentCategoryElement.textContent = prettifyWord(newGame.category);
+  currentCategoryElement.textContent = prettifyWord(GAME.category);
 
   const gameBoardElement = document.getElementById("game-board");
-  for (let i = 0; i < newGame.size; i++) {
+  for (let i = 0; i < GAME.boardSize; i++) {
     const row = document.createElement("div");
     row.classList.add("row", "flex-nowrap");
 
-    for (let j = 0; j < newGame.size; j++) {
+    for (let j = 0; j < GAME.boardSize; j++) {
       const column = document.createElement("div");
       column.classList.add(
         "col",
@@ -103,30 +153,29 @@ async function setupGame(board, category) {
         "text-uppercase"
       );
       column.id = `${i}-${j}`;
-      column.textContent = newGame.board[i][j];
-      column.addEventListener("click", letterGuess);
+      column.textContent = GAME.board[i][j];
+      column.addEventListener("click", tileClicked);
       row.appendChild(column);
     }
     gameBoardElement.appendChild(row);
   }
 
   const wordBankElement = document.getElementById("word-bank");
-  for (let i = 0; i < newGame.words.length; i++) {
-    const word = newGame.words[i];
+  for (let i = 0; i < GAME.words.length; i++) {
+    const word = GAME.words[i];
     const div = document.createElement("div");
     div.classList.add("word-bank-word", "col-6");
     div.textContent = word;
+    div.id = `word-${i}`;
     wordBankElement.appendChild(div);
   }
 
   const submitButton = document.getElementById("submit-word");
   const clearButton = document.getElementById("clear-word");
 
-  submitButton.addEventListener("click", submitWord);
   clearButton.addEventListener("click", clearWord);
-  
-  game = newGame;
-  return newGame;
+
+  return GAME;
 }
 
 export { setupGame };
