@@ -94,11 +94,7 @@ html {
   }
 }
 
-#right-content {
-  border-top: 1px solid black;
-}
 
 #left-content {
-  border-top: 1px solid black;
   border-right: 1px solid black;
 }
