@@ -26,6 +26,7 @@ class DB {
   async connect() {
     try {
       await this.client.connect();
+      console.log("Connected to database");
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +38,7 @@ class DB {
   async close() {
     try {
       await this.client.end();
+      console.log("Closed connection to database");
     } catch (error) {
       console.log(error);
     }
@@ -59,26 +61,26 @@ class DB {
             DROP TABLE IF EXISTS words CASCADE;
             DROP TABLE IF EXISTS users CASCADE;
             DROP TABLE IF EXISTS scores CASCADE;
-            CREATE TABLE categories (
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(255) NOT NULL
-            );
-            CREATE TABLE words (
-                id SERIAL PRIMARY KEY,
-                word VARCHAR(255) NOT NULL,
-                category_id INTEGER REFERENCES categories(id)
-            );
-            CREATE TABLE users (
-                id SERIAL PRIMARY KEY,
-                username VARCHAR(255) NOT NULL
-            );
-            CREATE TABLE scores (
-                id SERIAL PRIMARY KEY,
-                score INTEGER NOT NULL,
-                user_id INTEGER REFERENCES users(id),
-                category_id INTEGER REFERENCES categories(id)
-            );
+            DROP TABLE IF EXISTS scoreboard CASCADE;
             `);
+      await this.client.query(`
+      CREATE TABLE categories (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL
+      );
+      CREATE TABLE words (
+          id SERIAL PRIMARY KEY,
+          word VARCHAR(255) NOT NULL,
+          category_id INTEGER REFERENCES categories(id)
+      );
+      CREATE TABLE scoreboard (
+          id SERIAL PRIMARY KEY,
+          score INTEGER NOT NULL DEFAULT 0,
+          name VARCHAR(255) NOT NULL,
+          category_id INTEGER REFERENCES categories(id),
+          board_size INTEGER NOT NULL DEFAULT 5
+      );
+      `);
       console.log("Database initialized");
       await this.populate();
     } catch (error) {
@@ -92,7 +94,7 @@ class DB {
   async populate() {
     try {
       const categories = await this.fixWordsJSON();
-    //   console.log(categories);
+      //   console.log(categories);
       for (const category in categories) {
         console.log(`Adding ${category}...`);
         const result = await this.client.query(
@@ -226,10 +228,11 @@ class DB {
             JOIN categories
             ON scores.category_id = categories.id
             ORDER BY score DESC;
-            `);
+            `
+      );
       return result.rows.reduce((acc, row) => {
         if (!acc[row.username]) {
-            acc[row.username] = [];
+          acc[row.username] = [];
         }
         acc[row.username].push({ score: row.score, category: row.name });
         return acc;
@@ -276,7 +279,11 @@ class DB {
             `,
         [word, category_id]
       );
-      return {word: result.rows[0].word, id: result.rows[0].id, category_id: result.rows[0].category_id};
+      return {
+        word: result.rows[0].word,
+        id: result.rows[0].id,
+        category_id: result.rows[0].category_id,
+      };
     } catch (error) {
       console.log(error);
     }
@@ -312,7 +319,7 @@ class DB {
             `,
         [username, password]
       );
-      return { username: result.rows[0].username, id: result.rows[0].id};
+      return { username: result.rows[0].username, id: result.rows[0].id };
     } catch (error) {
       console.log(error);
     }

@@ -27,7 +27,7 @@
   <body>
     <div class="container-fluid d-flex flex-column h-100 p-0">
       <!-- Nav Bar -->
-      <nav class="navbar navbar-expand-sm bg-seagreen px-2">
+      <nav class="navbar navbar-expand-sm bg-seagreen px-2 shadow-lg" data-bs-theme="dark">
         <button
           class="navbar-toggler border-white"
           type="button"
@@ -46,12 +46,9 @@
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
             <!-- FIXME: item splits when screen gets smaller -->
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
+              <button class="btn btn-outline-light" type="button">
                 New Game
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Reset</a>
+              </button>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Scoreboard</a>
@@ -95,22 +92,11 @@
           </ul>
           <ul class="navbar-nav ms-auto mb-0 justify-content-end">
             <li class="nav-item">
-              <a class="nav-link text-center bg-white rounded-2" href="#"
-                >Help</a
-              >
+              <button class="btn btn-outline-light" type="button">
+                Help
+              </button>
             </li>
           </ul>
-          <!-- <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form> -->
         </div>
       </nav>
       <!-- Main Content -->
@@ -146,6 +132,7 @@
                 class="btn btn-success bg-body-sucess"
                 type="button"
                 id="submit-score"
+                data-bs-toggle="modal" data-bs-target="#submitScoreModal"
               >
                 Submit Score
               </button>
@@ -192,3 +179,21 @@
     <script type="module" src="./main.js"></script>
   </body>
 </html>
+
+<div class="modal fade" id="submitScoreModal" tabindex="-1" aria-labelledby="submitScoreModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-seagreen" data-bs-theme="dark">
+        <h1 class="modal-title fs-5 text-light" id="submitScoreModalLabel">Score Submission</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Enter your name
+      </div>
+      <div class="modal-footer" data-bs-theme="dark">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
