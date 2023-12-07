@@ -51,20 +51,21 @@
               </button>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Scoreboard</a>
+              <button class="btn btn-outline-light" type="button">
+                Scoreboard
+              </button>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
+              <button
+                class="btn btn-outline-light dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Boards
-              </a>
+                aria-expanded="false">
+                Board Sizes
+              </button>
               <!-- FIXME: these buttons need to change the board -->
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" data-bs-theme="light">
                 <li><a class="dropdown-item" href="#">5 x 5</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="#">7 x 7</a></li>
@@ -77,22 +78,21 @@
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
+              <button
+                class="btn btn-outline-light dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton2"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+                aria-expanded="false">
                 Categories
-              </a>
+              </button>
               <!-- FIXME: these buttons need to change the board, add categories dynamically from backend -->
-              <ul class="dropdown-menu" id="categories"></ul>
+              <ul class="dropdown-menu" id="categories" data-bs-theme="light"></ul>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-0 justify-content-end">
             <li class="nav-item">
-              <button class="btn btn-outline-light" type="button">
+              <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#helpModal">
                 Help
               </button>
             </li>
@@ -144,23 +144,6 @@
               <span class="fs-5" id="score">0</span>
             </div>
           </div>
-          <!-- <div class="row justify-content-center m-2">
-            <div
-              id="timer"
-              class="progress p-0"
-              role="progressbar"
-              aria-label="timer"
-              aria-valuenow="75"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <div class="progress-bar"></div>
-            </div>
-            <div class="col-12">
-              <span class="fs-5 fw-bold">15</span>
-              <span class="fs-5" id="category"> secs remaining</span>
-            </div>
-          </div> -->
         </div>
         <!-- Right half -->
         <div
@@ -188,11 +171,31 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Enter your name
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+          </div>
       </div>
       <div class="modal-footer" data-bs-theme="dark">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <!--TODO: Add functionality to submit the score to the db -->
+        <button type="button" class="btn btn-primary" id="submit-score-db">Submit Score</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-seagreen" data-bs-theme="dark">
+        <h1 class="modal-title fs-5 text-light" id="helpModalLabel">Help</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Help goes here
+      <div class="modal-footer" data-bs-theme="dark">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
