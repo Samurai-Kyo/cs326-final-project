@@ -71,18 +71,12 @@ function tileClicked(event) {
   const y = parseInt(id.slice(hyphenIndex + 1));
   const coords = new LetterCoord(target.textContent, x, y);
 
-  // console.log(`Clicked: ${coords.x}-${coords.y}`);
-
   const currentLetterCoord = GAME.letterCoords.lastLetterCoords();
-  // console.log(`Current letter: ${currentLetterCoord.x}-${currentLetterCoord.y}`);
   if (GAME.addLetterToGuess(coords)) {
-    // console.log(`Adding letter: ${coords.x}-${coords.y}`);
     addLetterToGuess(target, currentLetterCoord);
   } else if (GAME.removeLetterFromGuess(coords)) {
-    // console.log(`Removing letter: ${coords.x}-${coords.y}`);
     removeLastLetterFromGuess(target);
   } else {
-    // alert("Select adjacent letters to add or last letter to remove.");
     animateInvalidLetter(target);
   }
 
@@ -150,9 +144,12 @@ async function setupGame(board, category) {
 
   const currentCategoryElement = document.getElementById("current-category");
   currentCategoryElement.textContent = prettifyWord(GAME.category);
-  // console.log(GAME.category);
-
   const gameBoardElement = document.getElementById("game-board");
+  const wordBankElement = document.getElementById("word-bank");
+  const scoreElement = document.getElementById("score");
+  scoreElement.innerText = "0";
+  gameBoardElement.innerHTML = "";
+  wordBankElement.innerHTML = "";
   for (let i = 0; i < GAME.boardSize; i++) {
     const row = document.createElement("div");
     row.classList.add("row", "flex-nowrap");
@@ -173,7 +170,6 @@ async function setupGame(board, category) {
         "font-weight-bold",
         "text-uppercase"
       );
-      //FIXME: is a problem if the board size is greater than 9
       column.id = `${i}-${j}`;
       column.textContent = GAME.board[i][j];
       column.addEventListener("click", tileClicked);
@@ -181,8 +177,6 @@ async function setupGame(board, category) {
     }
     gameBoardElement.appendChild(row);
   }
-
-  const wordBankElement = document.getElementById("word-bank");
   for (let i = 0; i < GAME.words.length; i++) {
     const word = GAME.words[i];
     const div = document.createElement("div");
@@ -193,7 +187,6 @@ async function setupGame(board, category) {
   }
 
   const clearButton = document.getElementById("clear-word");
-
   clearButton.addEventListener("click", clearWord);
 
   return GAME;

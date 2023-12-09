@@ -44,7 +44,6 @@
         <!-- <hr class="d-sm-none"></hr> -->
         <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
-            <!-- FIXME: item splits when screen gets smaller -->
             <li class="nav-item">
               <button class="btn btn-outline-light" type="button">
                 Scoreboard
@@ -143,7 +142,7 @@
           <div class="row m-2">
             <div class="col-12">
               <span class="fs-5 fw-bold">Score: </span>
-              <span class="fs-5" id="score">0</span>
+              <span class="fs-5" id="score"></span>
             </div>
           </div>
         </div>
@@ -175,13 +174,13 @@
       <div class="modal-body">
         <div class="input-group mb-3">
           <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+          <input type="text" class="form-control" id="user-name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
       </div>
       <div class="modal-footer" data-bs-theme="dark">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <!--TODO: Add functionality to submit the score to the db -->
-        <button type="button" class="btn btn-primary" id="submit-score-db">Submit Score</button>
+        <button type="button" class="btn btn-primary" id="submit-score-db" data-bs-dismiss="modal">Submit Score</button>
       </div>
     </div>
   </div>

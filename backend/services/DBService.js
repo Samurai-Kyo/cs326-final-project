@@ -217,29 +217,7 @@ class DB {
    * @returns An object with all scores, along with its user and category in the database.
    */
   async getScores() {
-    try {
-      const result = await this.client.query(
-        // get all scores, join with users and categories sorted by score descending
-        `
-            SELECT scores.id, scores.score, users.username, categories.name
-            FROM scores
-            JOIN users
-            ON scores.user_id = users.id
-            JOIN categories
-            ON scores.category_id = categories.id
-            ORDER BY score DESC;
-            `
-      );
-      return result.rows.reduce((acc, row) => {
-        if (!acc[row.username]) {
-          acc[row.username] = [];
-        }
-        acc[row.username].push({ score: row.score, category: row.name });
-        return acc;
-      }, {});
-    } catch (error) {
-      console.log(error);
-    }
+    // FIXME: This query is not working
   }
 
   /**
@@ -305,43 +283,22 @@ class DB {
   }
 
   /**
-   * Adds a user to the database.
-   * @param {string} username
-   * @returns An object of the user that was added and its id.
-   */
-  async addUser(username) {
-    try {
-      const result = await this.client.query(
-        `
-            INSERT INTO users (username)
-            VALUES ($1)
-            RETURNING *;
-            `,
-        [username, password]
-      );
-      return { username: result.rows[0].username, id: result.rows[0].id };
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  /**
    * Adds a score to the database.
-   * @param {int} score
-   * @param {int} user_id
-   * @returns The score that was added.
+   * @param {string} name The username of the user.
+   * @param {int} score The score of the user.
+   * @param {int} category_id The category id of the game.
    */
-  async addScore(score, user_id, category_id) {
+  async addScore(name, score, category_id, board_size) {
     try {
       const result = await this.client.query(
         `
-            INSERT INTO scores (score, user_id, category_id)
-            VALUES ($1, $2, $3)
+            INSERT INTO scoreboard (name, score, category_id, board_size)
+            VALUES ($1, $2, $3, $4)
             RETURNING *;
             `,
-        [score, user_id, category_id]
+        [name, score, category_id, board_size]
       );
-      return { score: result.rows[0].score, user_id: result.rows[0].user_id };
+      return result.rows[0];
     } catch (error) {
       console.log(error);
     }
@@ -353,18 +310,7 @@ class DB {
    * @returns An array of the user's scores.
    */
   async getScoreByUser(user_id) {
-    try {
-      const result = await this.client.query(
-        `
-            SELECT * FROM scores
-            WHERE user_id = $1;
-            `,
-        [user_id]
-      );
-      return result.rows.map((row) => row.score);
-    } catch (error) {
-      console.log(error);
-    }
+    // FIXME: This query is not working 
   }
 }
 
