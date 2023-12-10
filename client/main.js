@@ -7,11 +7,20 @@ let size = 10;
 let board = await setupBoard(size, categories.currentCategoryId);
 let game = await setupGame(board, categories.currentCategory);
 
+const resetButton = document.getElementById("reset-game");
 const submitButton = document.getElementById("submit-score-db");
 const nameInput = document.getElementById("user-name");
 const scoreInput = document.getElementById("score");
 
 submitButton.addEventListener("click", submitScore);
+resetButton.addEventListener("click", resetGame);
+
+export async function resetGame() {
+  nameInput.value = "";
+  board = await setupBoard(size, categories.currentCategoryId);
+  game = await setupGame(board, categories.currentCategory);
+}
+
 
 export async function submitScore() {
   try {
@@ -26,9 +35,7 @@ export async function submitScore() {
       body: JSON.stringify(body),
     });
     const data = await response.json();
-    nameInput.value = "";
-    board = await setupBoard(10, categories.currentCategoryId);
-    setupGame(board, categories.currentCategory);
+    resetGame();
   } catch (error) {
     console.log(error);
   }

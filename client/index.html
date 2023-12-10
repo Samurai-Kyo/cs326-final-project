@@ -37,11 +37,9 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <!-- <span class="navbar-toggler-icon checkDiv"></span> -->
           <i class="bi bi-list text-white fs-3"></i>
         </button>
         <span class="navbar-brand text-white mx-auto" href="#">Word Chain</span>
-        <!-- <hr class="d-sm-none"></hr> -->
         <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
             <li class="nav-item">
@@ -58,7 +56,7 @@
                 aria-expanded="false">
                 Board Sizes
               </button>
-              <!-- FIXME: these buttons need to change the board -->
+              <!-- FIXME: board size buttons need to change the board -->
               <ul class="dropdown-menu" data-bs-theme="light">
                 <li><a class="dropdown-item" href="#">5 x 5</a></li>
                 <li><hr class="dropdown-divider" /></li>
@@ -82,11 +80,11 @@
                 aria-expanded="false">
                 Categories
               </button>
-              <!-- FIXME: these buttons need to change the board, add categories dynamically from backend -->
+              <!-- FIXME: categories buttons need to change the board, add categories dynamically from backend -->
               <ul class="dropdown-menu" id="categories" data-bs-theme="light"></ul>
             </li>
             <li class="nav-item">
-              <button class="btn btn-danger" type="button">
+              <button class="btn btn-danger" type="button" id="reset-game">
                 Reset
               </button>
             </li>
@@ -176,10 +174,13 @@
           <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
           <input type="text" class="form-control" id="user-name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
+          <div class="mt-auto text-center">
+            <span class="text-danger"><i class="bi bi-exclamation-circle"></i> Submitting score will reset game.</span>
+            </div>
       </div>
+      
       <div class="modal-footer" data-bs-theme="dark">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <!--TODO: Add functionality to submit the score to the db -->
         <button type="button" class="btn btn-primary" id="submit-score-db" data-bs-dismiss="modal">Submit Score</button>
       </div>
     </div>
@@ -194,6 +195,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <!-- FIXME: Need to add help dialog -->
         Help goes here
       <div class="modal-footer" data-bs-theme="dark">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
