@@ -27,23 +27,30 @@
   <body>
     <div class="container-fluid d-flex flex-column h-100 p-0">
       <!-- Nav Bar -->
-      <nav class="navbar navbar-expand-sm bg-seagreen px-2 shadow-lg" data-bs-theme="dark">
+      <nav
+        class="navbar navbar-expand-sm bg-seagreen px-2 shadow-lg"
+        data-bs-theme="dark"
+      >
         <button
           class="navbar-toggler border-white"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <i class="bi bi-list text-white fs-3"></i>
         </button>
         <span class="navbar-brand text-white mx-auto" href="#">Word Chain</span>
-        <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse px-2" id="navbarContent">
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
             <li class="nav-item">
-              <button class="btn btn-outline-light" type="button" id="scoreboard-button">
+              <button
+                class="btn btn-outline-light"
+                type="button"
+                id="scoreboard-button"
+              >
                 Scoreboard
               </button>
             </li>
@@ -53,11 +60,15 @@
                 type="button"
                 id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false"
+              >
                 Board Sizes
               </button>
-              <ul class="dropdown-menu" data-bs-theme="light" id="board-sizes">
-              </ul>
+              <ul
+                class="dropdown-menu"
+                data-bs-theme="light"
+                id="board-sizes"
+              ></ul>
             </li>
             <li class="nav-item dropdown">
               <button
@@ -65,10 +76,15 @@
                 type="button"
                 id="dropdownMenuButton2"
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false"
+              >
                 Categories
               </button>
-              <ul class="dropdown-menu" id="categories" data-bs-theme="light"></ul>
+              <ul
+                class="dropdown-menu"
+                id="categories"
+                data-bs-theme="light"
+              ></ul>
             </li>
             <li class="nav-item">
               <button class="btn btn-danger" type="button" id="reset-game">
@@ -78,7 +94,12 @@
           </ul>
           <ul class="navbar-nav ms-auto mb-0 justify-content-end">
             <li class="nav-item">
-              <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#helpModal">
+              <button
+                class="btn btn-outline-light"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#helpModal"
+              >
                 Help
               </button>
             </li>
@@ -118,7 +139,8 @@
                 class="btn btn-success bg-body-sucess"
                 type="button"
                 id="submit-score"
-                data-bs-toggle="modal" data-bs-target="#submitScoreModal"
+                data-bs-toggle="modal"
+                data-bs-target="#submitScoreModal"
               >
                 Submit Score
               </button>
@@ -145,10 +167,19 @@
         </div>
       </div>
       <!-- Scoreboard -->
-      <div class="row flex-grow-1 m-0 overflow-scroll visually-hidden" id="scoreboard-container">
-        <div class="col-12 p-2 align-items-center d-flex flex-column justify-content-center">
-          <div class="row m-0 p-0 justify-content-center border border-black shadow" >
-            <span class="fs-3 fw-bold text-decoration-underline">Scoreboard</span>
+      <div
+        class="row flex-grow-1 m-0 overflow-scroll visually-hidden"
+        id="scoreboard-container"
+      >
+        <div
+          class="col-12 p-2 align-items-center d-flex flex-column justify-content-center"
+        >
+          <div
+            class="row m-0 p-0 justify-content-center border border-black shadow"
+          >
+            <span class="fs-3 fw-bold text-decoration-underline"
+              >Scoreboard</span
+            >
             <table class="table table-striped table-hover m-0 table-borderless">
               <thead>
                 <tr>
@@ -160,55 +191,166 @@
                   <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody id="scoreboard-body">
-              </tbody>
+              <tbody id="scoreboard-body"></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-    <script type="module" src="./main.js"></script>
-  </body>
-</html>
-
-<div class="modal fade" id="submitScoreModal" tabindex="-1" aria-labelledby="submitScoreModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-seagreen" data-bs-theme="dark">
-        <h1 class="modal-title fs-5 text-light" id="submitScoreModalLabel">Score Submission</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-          <input type="text" class="form-control" id="user-name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+    <!-- Modals -->
+    <div
+      class="modal fade"
+      id="submitScoreModal"
+      tabindex="-1"
+      aria-labelledby="submitScoreModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-seagreen" data-bs-theme="dark">
+            <h1 class="modal-title fs-5 text-light" id="submitScoreModalLabel">
+              Score Submission
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
-          <div class="mt-auto text-center">
-            <span class="text-danger"><i class="bi bi-exclamation-circle"></i> Submitting score will reset game.</span>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Name</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="user-name"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
             </div>
-      </div>
-      
-      <div class="modal-footer" data-bs-theme="dark">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="submit-score-db" data-bs-dismiss="modal">Submit Score</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="mt-auto text-center">
+              <span class="text-danger"
+                ><i class="bi bi-exclamation-circle"></i> Submitting score will
+                reset game.</span
+              >
+            </div>
+          </div>
 
-<div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-seagreen" data-bs-theme="dark">
-        <h1 class="modal-title fs-5 text-light" id="helpModalLabel">Help</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- FIXME: Need to add help dialog -->
-        Help goes here
-      <div class="modal-footer" data-bs-theme="dark">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <div class="modal-footer" data-bs-theme="dark">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="submit-score-db"
+              data-bs-dismiss="modal"
+            >
+              Submit Score
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div
+      class="modal fade"
+      id="helpModal"
+      tabindex="-1"
+      aria-labelledby="helpModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-seagreen" data-bs-theme="dark">
+            <h1 class="modal-title fs-5 text-light" id="helpModalLabel">
+              How to Play
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ol class="list-group list-group-numbered">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Select a board-size</div>
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Select a category</div>
+                  Categories are fetched from the database based on the selected
+                  board size.
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Click on a letter to start a word</div>
+                  Clicking on a letter will add it to the current word.
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Click on the next letter</div>
+                  Letters can only be added to the current word if they are
+                  adjacent to the last letter added. This includes diagonals. To
+                  remove a letter, you can click on the last letter of the word
+                  that was added or click on the "Clear Word" button.
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Finish the word</div>
+                  Clicking on the last letter of a valid word submits it. If the
+                  word is valid, it will be crossed off the word bank and the
+                  score will be updated.
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Submit Score</div>
+                  Once the game is over, you can submit your score to the
+                  database. This will reset the game.
+                </div>
+              </li>
+            </ol>
+            <div class="modal-footer" data-bs-theme="dark">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <footer>
+    <script type="module" src="./main.js"></script>
+  </footer>
+</html>
