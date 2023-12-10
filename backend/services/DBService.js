@@ -219,7 +219,8 @@ class DB {
   async getScores() {
     try {
       const result = await this.client.query(`
-            SELECT * FROM scoreboard;
+            SELECT * FROM scoreboard
+            ORDER BY score DESC;
             `);
       return result.rows;
     } catch (error) {
