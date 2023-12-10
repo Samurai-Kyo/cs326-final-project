@@ -14,7 +14,7 @@ async function getCategories(req,res){
         if (categories.length === 0) {
             throw new Error('No categories found.');
         }
-        res.status(200).send({categories: categories});
+        res.status(200).send({message: "Categories retrieved" ,categories: categories});
     } catch (error) {
         console.log(error);
         res.status(500).send({ error: 'Internal server error.', message: error.message });

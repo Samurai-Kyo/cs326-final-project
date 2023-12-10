@@ -1,9 +1,11 @@
-function showScoreboard() {
-    var scoreboard = document.getElementById("scoreboard");
-    scoreboard.style.display = "block";
+async function getScores() {
+  try {
+    const response = await fetch("/scoreboard");
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function hideScoreboard() {
-    var scoreboard = document.getElementById("scoreboard");
-    scoreboard.style.display = "none";
-}
+export { getScores };

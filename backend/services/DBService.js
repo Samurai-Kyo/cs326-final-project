@@ -213,11 +213,18 @@ class DB {
   }
 
   /**
-   * Gets all words from the database.
+   * Gets all scores from the database.
    * @returns An object with all scores, along with its user and category in the database.
    */
   async getScores() {
-    // FIXME: This query is not working
+    try {
+      const result = await this.client.query(`
+            SELECT * FROM scoreboard;
+            `);
+      return result.rows;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /**

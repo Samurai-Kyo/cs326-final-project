@@ -19,4 +19,19 @@ async function postScore(req, res) {
     }
 }
 
-export { postScore };
+async function getScores(req, res) {
+    try {
+        const db = new DB();
+        db.connect();
+        const result = await db.getScores();
+        db.disconnect();
+        if (!result) {
+            throw new Error("Could not get scores");
+        }
+        res.status(200).send({ message: "Scores retrieved", result });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
+export { postScore, getScores };

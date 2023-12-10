@@ -1,6 +1,7 @@
 import { setupCategories } from "./controllers/CategoriesController.js";
 import { setupBoard } from "./controllers/BoardController.js";
 import { setupGame } from "./controllers/GameController.js";
+import { getScores } from "./controllers/ScoreboardController.js";
 
 const categories = await setupCategories();
 let boardSize;
@@ -12,11 +13,37 @@ const resetButton = document.getElementById("reset-game");
 const submitButton = document.getElementById("submit-score-db");
 const nameInput = document.getElementById("user-name");
 const scoreInput = document.getElementById("score");
+const scoreboardContainer = document.getElementById("scoreboard-container");
+const gameContainer = document.getElementById("game-container");
+const scoreboardButton = document.getElementById("scoreboard-button");
 
 submitButton.addEventListener("click", submitScore);
 resetButton.addEventListener("click", resetGame);
+scoreboardButton.addEventListener("click", toggleScoreboard);
+
 linkCategories();
 addBoardSizes();
+
+
+async function toggleScoreboard() {
+  if (scoreboardContainer.classList.contains("visually-hidden")) {
+    gameContainer.classList.add("visually-hidden");
+    scoreboardContainer.classList.remove("visually-hidden");
+    scoreboardContainer.innerHTML = "";
+    const scores = await getScores();
+    scores.forEach((score) => {
+      const cat = categories.getCategoryById(score.category_id);
+      const li = document.createElement("li");
+      li.classList.add("list-group-item");
+      li.innerText = `${score.name} - ${score.score} - ${cat} - ${score.board_size} x ${score.board_size}`;
+      scoreboardContainer.appendChild(li);
+    });
+  }
+  else {
+    scoreboardContainer.classList.add("visually-hidden");
+    gameContainer.classList.remove("visually-hidden");
+  }
+}
 
 function linkCategories() {
   const categoryButtons = document.querySelectorAll(".category-link");
@@ -56,7 +83,6 @@ export async function resetGame() {
   board = await setupBoard(boardSize, categories.currentCategoryId);
   game = await setupGame(board, categories.currentCategory);
 }
-
 
 export async function submitScore() {
   try {

@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-0 justify-content-evenly">
             <li class="nav-item">
-              <button class="btn btn-outline-light" type="button">
+              <button class="btn btn-outline-light" type="button" id="scoreboard-button">
                 Scoreboard
               </button>
             </li>
@@ -56,19 +56,7 @@
                 aria-expanded="false">
                 Board Sizes
               </button>
-              <!-- FIXME: board size buttons need to change the board -->
               <ul class="dropdown-menu" data-bs-theme="light" id="board-sizes">
-                <!-- <li><a class="dropdown-item" href="#">5 x 5</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">6 x 6</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">7 x 7</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">8 x 8</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">9 x 9</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">10 x 10</a></li> -->
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -80,7 +68,6 @@
                 aria-expanded="false">
                 Categories
               </button>
-              <!-- FIXME: categories buttons need to change the board, add categories dynamically from backend -->
               <ul class="dropdown-menu" id="categories" data-bs-theme="light"></ul>
             </li>
             <li class="nav-item">
@@ -99,7 +86,7 @@
         </div>
       </nav>
       <!-- Main Content -->
-      <div class="row flex-grow-1 m-0 text-center">
+      <div class="row flex-grow-1 m-0 text-center" id="game-container">
         <!-- Left half -->
         <div
           class="col-12 col-sm-8 p-2 align-items-center d-flex flex-column justify-content-center"
@@ -156,6 +143,9 @@
           </div>
           <div class="row m-0 p-1" id="word-bank"></div>
         </div>
+      </div>
+      <!-- Scoreboard -->
+      <div class="row flex-grow-1 m-0 visually-hidden" id="scoreboard-container">
       </div>
     </div>
     <script type="module" src="./main.js"></script>
