@@ -70,7 +70,7 @@ export async function submitScore() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    const data = await response.json();
+    await response.json();
     resetGame();
   } catch (error) {
     console.log(error);
