@@ -3,8 +3,34 @@ html {
   height: 100%;
 }
 
+table {
+  cursor: default;
+}
+
+.score-name{
+  width: 10rem;
+}
+
+.edit-name {
+  width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: transparent;
+  border: none;
+}
+
+.edit-name:focus {
+  background-color: white;
+  border-color: seagreen;
+}
+
 .nav-item {
   margin-right: 0.5rem;
+}
+
+.delete-icon:hover {
+  color: red;
+  cursor: pointer;
 }
 
 .bg-seagreen {
@@ -93,7 +119,6 @@ html {
     transform: scale(1);
   }
 }
-
 
 #left-content {
   border-right: 1px solid black;

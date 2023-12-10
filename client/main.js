@@ -1,7 +1,7 @@
 import { setupCategories } from "./controllers/CategoriesController.js";
 import { setupBoard } from "./controllers/BoardController.js";
 import { setupGame } from "./controllers/GameController.js";
-import { getScores } from "./controllers/ScoreboardController.js";
+import { getScores, addScore } from "./controllers/ScoreboardController.js";
 
 const categories = await setupCategories();
 let boardSize;
@@ -29,19 +29,19 @@ async function toggleScoreboard() {
   if (scoreboardContainer.classList.contains("visually-hidden")) {
     gameContainer.classList.add("visually-hidden");
     scoreboardContainer.classList.remove("visually-hidden");
-    scoreboardContainer.innerHTML = "";
+    const scoreboard = document.getElementById("scoreboard-body");
+    scoreboard.innerHTML = "";
     const scores = await getScores();
-    scores.forEach((score) => {
-      const cat = categories.getCategoryById(score.category_id);
-      const li = document.createElement("li");
-      li.classList.add("list-group-item");
-      li.innerText = `${score.name} - ${score.score} - ${cat} - ${score.board_size} x ${score.board_size}`;
-      scoreboardContainer.appendChild(li);
+    scores.forEach((score, i) => {
+      score.category = categories.getCategoryById(score.category_id);
+      addScore(score, i);
     });
+    scoreboardButton.innerText = "Game";
   }
   else {
     scoreboardContainer.classList.add("visually-hidden");
     gameContainer.classList.remove("visually-hidden");
+    scoreboardButton.innerText = "Scoreboard";
   }
 }
 

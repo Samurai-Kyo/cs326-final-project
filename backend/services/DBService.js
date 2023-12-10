@@ -229,6 +229,27 @@ class DB {
   }
 
   /**
+   * Deletes a score from the database.
+   * @param {int} id The id of the score to delete. 
+   * @returns The score that was deleted.
+   */
+  async deleteScore(id) {
+    try {
+      const result = await this.client.query(
+        `
+            DELETE FROM scoreboard
+            WHERE id = $1
+            RETURNING *;
+            `,
+        [id]
+      );
+      return result.rows[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
    * Adds a category to the database.
    * @param {String} name
    * @returns An object with category that was added and its id.
@@ -312,13 +333,22 @@ class DB {
     }
   }
 
-  /**
-   * Gets a user's score from the database.
-   * @param {int} user_id
-   * @returns An array of the user's scores.
-   */
-  async getScoreByUser(user_id) {
-    // FIXME: This query is not working 
+  async editScoreName(id, name) {
+    try {
+      const result = await this.client.query(
+        `
+            UPDATE scoreboard
+            SET name = $1
+            WHERE id = $2
+            RETURNING *;
+            `,
+        [name, id]
+      );
+      console.log(result.rows[0]);
+      return result.rows[0];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

@@ -34,4 +34,45 @@ async function getScores(req, res) {
     }
 }
 
-export { postScore, getScores };
+async function deleteScore(req, res) {
+    try{
+        const { id } = req.params;
+        console.log(id);
+        if (!id) {
+            throw new Error("Missing data");
+        }
+        const db = new DB();
+        db.connect();
+        const result = await db.deleteScore(id);
+        db.disconnect();
+        if (!result) {
+            throw new Error("Could not delete score");
+        }
+        res.status(200).send({ message: "Score deleted", result });
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
+async function editScoreName(req, res) {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+        if (!id || !name) {
+            throw new Error("Missing data");
+        }
+        const db = new DB();
+        db.connect();
+        const result = await db.editScoreName(id, name);
+        db.disconnect();
+        if (!result) {
+            throw new Error("Could not edit score");
+        }
+        res.status(200).send({ message: "Score edited", result });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
+export { postScore, getScores, deleteScore, editScoreName };
