@@ -7,6 +7,7 @@
  */
 export function boardHandler(req, res, next) {
     const { size, category } = req.body;
+    console.log(size, category);
     if (!size || !category) {
         console.log('Missing size or category.');
         return res.status(400).json({ error: 'Missing size or category.' });

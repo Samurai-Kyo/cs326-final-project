@@ -1,8 +1,6 @@
 import Categories from "../models/CategoriesModel.js";
 import { prettifyWord } from "../utils/utils.js";
 
-// const categories = new Categories();
-
 async function fetchCategories() {
   try {
     const response = await fetch("http://localhost:3000/categories");
@@ -20,12 +18,12 @@ async function setupCategories() {
   for (let i = 0; i < categoryNames.length; i++) {
     const category = categoryNames[i];
     const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.classList.add("dropdown-item");
-    a.href = "#"; // FIXME: Add link to fetch category and reset page
-    a.id = category;
-    a.textContent = prettifyWord(categoryNames[i]);
-    li.appendChild(a);
+    const btn = document.createElement("button");
+    btn.classList.add("dropdown-item");
+    btn.classList.add("category-link");
+    btn.id = category;
+    btn.innerText = prettifyWord(category);
+    li.appendChild(btn);
     categoryElements.push(li);
   }
   categoryElements.sort((a, b) => {
