@@ -5,13 +5,14 @@ import { setupGame, saveState } from "../controllers/GameController.js";
 import { LetterCoord } from "../models/CoordsModel.js";
 import { submitWord, resetGame } from "./GameView.js";
 
-const BOARD_SIZES = [5, 6, 7, 8, 9, 10, 11, 12];
+const BOARD_SIZES = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
 /**
  * Setup the board size dropdown menu
  */
 function setupBoardSizes() {
   const boardSizesElement = document.getElementById("board-sizes");
+  const sizeElements = [];
   BOARD_SIZES.forEach((size) => {
     const li = document.createElement("li");
     const btn = document.createElement("button");
@@ -19,7 +20,6 @@ function setupBoardSizes() {
     btn.classList.add("board-size-link");
     btn.innerText = size + " x " + size;
     li.appendChild(btn);
-    boardSizesElement.appendChild(li);
     btn.addEventListener("click", async () => {
       if (size !== BOARD.size) {
         BOARD.size = size;
@@ -29,7 +29,18 @@ function setupBoardSizes() {
         resetGame();
       }
     });
+    sizeElements.push(li);
   });
+
+  for (let i = 0; i < sizeElements.length; i++) {
+    const element = sizeElements[i];
+    boardSizesElement.appendChild(element);
+    if (i < sizeElements.length - 1) {
+      const divider = document.createElement("li");
+      divider.classList.add("dropdown-divider");
+      boardSizesElement.appendChild(divider);
+    }
+  }
 }
 
 /**

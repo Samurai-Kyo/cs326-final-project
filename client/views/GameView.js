@@ -57,7 +57,6 @@ async function resetGame() {
   await setupBoard();
   await setupGame();
   setInputs();
-  setCategory();
   setBoard();
   setWordBank();
 }
