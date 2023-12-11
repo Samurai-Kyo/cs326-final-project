@@ -1,5 +1,18 @@
 class Categories {
-  constructor(categories) {
+  /**
+   * Creates a new Categories object with uninitialized values.
+   */
+  constructor() {
+    this.categories = [];
+    this.currentCategory = null;
+    this.currentCategoryId = null;
+  }
+
+  /**
+   * Sets the categories.
+   * @param {obj} categories The categories.
+   */
+  setCategories(categories) {
     this.categories = categories;
     this.currentCategory = categories[0];
     this.currentCategoryId = 1;

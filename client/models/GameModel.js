@@ -1,6 +1,10 @@
 import { LetterCoords, LetterCoord } from "./CoordsModel.js";
 
 export class Game {
+  /**
+   * Creates a new Game object with uninitialized values.
+   * @param {string} user The user's name
+   */
   constructor(user = "") {
     this.score = 0;
     this.guessWord = "";
@@ -38,6 +42,11 @@ export class Game {
     this.letterCoords = new LetterCoords();
   }
 
+  /**
+   * Creates a new game.
+   * @param {obj} board The board object
+   * @param {obj} category The category object
+   */
   newGame(board, category) {
     this.category = category;
     this.board = board.board;
