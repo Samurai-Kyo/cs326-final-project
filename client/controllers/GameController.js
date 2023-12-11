@@ -8,12 +8,10 @@ const GAME = new Game();
  * Saves the current board options to local storage.
  */
 function saveState() {
-  console.log("saving state");
   const state = {
     size: BOARD.size,
     category: CATEGORIES.currentCategory,
   };
-  console.log(`Saved: ${state}`);
   localStorage.setItem("state", JSON.stringify(state));
 }
 
@@ -22,13 +20,9 @@ function saveState() {
  */
 function loadState() {
   const state = JSON.parse(localStorage.getItem("state"));
-  console.log("loading state");
   if (state) {
     CATEGORIES.setCurrentCategory(state.category);
     BOARD.size = state.size;
-    console.log(`Loaded: ${JSON.stringify(state)}`);
-  } else {
-    console.log("no state found");
   }
 }
 
@@ -39,4 +33,4 @@ async function setupGame() {
   GAME.newGame(BOARD, CATEGORIES.currentCategory);
 }
 
-export { setupGame, GAME, saveState, loadState };
+export { GAME, setupGame, saveState, loadState };

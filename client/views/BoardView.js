@@ -3,7 +3,7 @@ import { GAME } from "../controllers/GameController.js";
 import { setupBoard } from "../controllers/BoardController.js";
 import { setupGame, saveState } from "../controllers/GameController.js";
 import { LetterCoord } from "../models/CoordsModel.js";
-import { submitWord } from "./GameView.js";
+import { submitWord, resetGame } from "./GameView.js";
 
 const BOARD_SIZES = [5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -21,10 +21,13 @@ function setupBoardSizes() {
     li.appendChild(btn);
     boardSizesElement.appendChild(li);
     btn.addEventListener("click", async () => {
-      BOARD.size = size;
-      saveState();
-      await setupBoard();
-      await setupGame();
+      if (size !== BOARD.size) {
+        BOARD.size = size;
+        saveState();
+        await setupBoard();
+        await setupGame();
+        resetGame();
+      }
     });
   });
 }
@@ -84,7 +87,6 @@ function tileClicked(event) {
   } else {
     animateInvalidLetter(target);
   }
-
   submitWord();
 }
 

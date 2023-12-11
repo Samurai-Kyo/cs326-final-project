@@ -23,4 +23,4 @@ async function setupCategories() {
   CATEGORIES.setCategories(categoryNames);
 }
 
-export { setupCategories, CATEGORIES };
+export { CATEGORIES, setupCategories };

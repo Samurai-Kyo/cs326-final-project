@@ -2,6 +2,7 @@ import { CATEGORIES } from "../controllers/CategoriesController.js";
 import { setupBoard } from "../controllers/BoardController.js";
 import { setupGame, saveState } from "../controllers/GameController.js";
 import { prettifyWord } from "../utils/utils.js";
+import { resetGame } from "./GameView.js";
 
 /**
  * Links the category buttons to the categories.
@@ -10,10 +11,13 @@ function linkCategories() {
   const categoryButtons = document.querySelectorAll(".category-link");
   categoryButtons.forEach((button) => {
     button.addEventListener("click", async () => {
-      CATEGORIES.setCurrentCategory(button.id);
-      saveState();
-      await setupBoard();
-      await setupGame();
+      if (button.id !== CATEGORIES.currentCategory) {
+        CATEGORIES.setCurrentCategory(button.id);
+        saveState();
+        await setupBoard();
+        await setupGame();
+        resetGame();
+      }
     });
   });
 }
@@ -55,7 +59,7 @@ function setupCategories() {
       categorySelect.appendChild(divider);
     }
   }
-    linkCategories();
+  linkCategories();
 }
 
 export { setupCategories };

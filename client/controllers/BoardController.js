@@ -6,7 +6,7 @@ const BOARD = new Board();
 
 /**
  * Sends a request to the server to get a new board.
- * @returns {} An object containing the board and the words.
+ * @returns {obj} An object containing the board and the words.
  */
 async function fetchBoard() {
   try {
@@ -41,4 +41,4 @@ async function setupBoard() {
   }
 }
 
-export { setupBoard, BOARD };
+export { BOARD, setupBoard };

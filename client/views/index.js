@@ -1,17 +1,15 @@
 import { setupCategories } from "./CategoriesView.js";
-import { setupBoardSizes, setBoard } from "./BoardView.js";
+import { setupBoardSizes } from "./BoardView.js";
+import { resetGame, setButtons } from "./GameView.js";
 
 /**
  * Sets up the page on load.
  */
 function setupPage() {
-    setupCategories();
-    setupBoardSizes();
-    setBoard();
+  setupCategories();
+  setupBoardSizes();
+  setButtons();
+  resetGame();
+}
 
-    // setGame();
-    // setButtons();
-  }
-
-
-  export { setupPage };
+export { setupPage };

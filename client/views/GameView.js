@@ -1,6 +1,7 @@
 import { GAME, setupGame } from "../controllers/GameController.js";
 import { BOARD, setupBoard } from "../controllers/BoardController.js";
 import { CATEGORIES } from "../controllers/CategoriesController.js";
+import { toggleScoreboard } from "./ScoreboardView.js";
 import { prettifyWord } from "../utils/utils.js";
 import { setBoard } from "./BoardView.js";
 
@@ -21,11 +22,15 @@ function setWordBank() {
 }
 
 /**
- * Sets up the title for the current category.
+ * Sets the category, clears the user's name, and clears the score.
  */
-function setCategory() {
+function setInputs() {
   const currentCategoryElement = document.getElementById("current-category");
   currentCategoryElement.textContent = prettifyWord(GAME.category);
+  const nameInput = document.getElementById("user-name");
+  nameInput.value = "";
+  const scoreElement = document.getElementById("score");
+  scoreElement.innerText = "0";
 }
 
 /**
@@ -40,6 +45,9 @@ function setButtons() {
 
   const clearButton = document.getElementById("clear-word");
   clearButton.addEventListener("click", clearWord);
+
+  const scoreboardButton = document.getElementById("scoreboard-button");
+  scoreboardButton.addEventListener("click", toggleScoreboard);
 }
 
 /**
@@ -48,11 +56,10 @@ function setButtons() {
 async function resetGame() {
   await setupBoard();
   await setupGame();
-  const nameInput = document.getElementById("user-name");
-  nameInput.value = "";
-  const scoreElement = document.getElementById("score");
-  scoreElement.innerText = "0";
-  setGame();
+  setInputs();
+  setCategory();
+  setBoard();
+  setWordBank();
 }
 
 /**
@@ -60,8 +67,10 @@ async function resetGame() {
  */
 async function submitScore() {
   try {
+    const nameInput = document.getElementById("user-name");
+    const scoreElement = document.getElementById("score");
     const name = nameInput.value;
-    const score = scoreInput.innerText;
+    const score = scoreElement.innerText;
     const category_id = CATEGORIES.currentCategoryId;
     const board_size = BOARD.size;
     const body = { name, score, category_id, board_size };
@@ -131,9 +140,4 @@ async function submitWord() {
   }
 }
 
-function setGame() {
-  setBoard();
-  setWordBank();
-}
-
-export { setGame, submitWord };
+export { submitWord, setButtons, resetGame };
