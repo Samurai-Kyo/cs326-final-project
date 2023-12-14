@@ -14,7 +14,15 @@ The project is built by separating the front-end and back-end into two separate 
 
 ## Project Architecture
 
-The front-end is structured in the following way:
+### Root:
+
+- **package.json**: Contains the dependencies and scripts used for the project.
+- **package-lock.json**: Contains the dependencies and their versions used for the project.
+- **README.md**: Contains this documentation for the project.
+- **.gitignore**: Contains files and folders that are ignored by git.
+
+### Frontend:
+
 - **index.html**: Contains a main div that contains the header, board, word bank, and scoreboard. Outside of the main div are modals that are displayed when the user clicks on the help or submit score button. Bootstrap is used to style the page and keep a polished look.
 - **style.css**: Contains custom styling for the page. This includes specific colors unavailable in Bootstrap, and styling for the modals. It also includes all the animations, transitions, and coloring used for the main board and word-bank.
 - **main.js**: Contains calls to other JS files that are used to set up the main page. This includes loading saved states, fetching a new game on page load, settings up the views and button functionalities.
@@ -37,7 +45,8 @@ The front-end is structured in the following way:
     - **ScoreboardView.js**: Contains functions responsible for displaying the scoreboard.
     - **index.js**: Contains functions responsible for displaying the main page by calling the functions in the other view files.
 
-The back-end is built using Node.js, Express, and Postgres. It is structured in the following way:
+### Backend:
+
 - **index.js**: Contains the main server code. It sets up the server using Express, along with any middlewares, a router for API calls, and a static folder for the front-end files.
 - **./controllers/\***:
     - **BoardController.js**: Contains functions that are used to fetch a new board from the database. It responds with a JSON object containing the board and the list of words.
@@ -55,12 +64,6 @@ The back-end is built using Node.js, Express, and Postgres. It is structured in 
     - **.env**: Contains environment variables that are used to connect to the database.
     - **DBService.js**: Contains functions that are used to connect to the database and execute queries.
     - **setupDB.js**: Contains functions that are used to set up the database. This includes creating the tables and inserting the categories and words found in ../data/categories.json.
-
-The root directory also contains the following files:
-- **package.json**: Contains the dependencies and scripts used for the project.
-- **package-lock.json**: Contains the dependencies and their versions used for the project.
-- **README.md**: Contains this documentation for the project.
-- **.gitignore**: Contains files and folders that are ignored by git.
 
 ## To Run Locally
 - Clone the repository
