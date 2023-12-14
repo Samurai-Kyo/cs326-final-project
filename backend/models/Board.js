@@ -119,7 +119,6 @@ class Board {
         !usedCoords
       ) {
         // place tile
-        // console.log(`Placing ${wordArr[0]} at ${x}, ${y}`);
         const tile = this.board[x][y];
         this.board[x][y] = wordArr[0];
         usedCoords[wordArr[0]].push({ x, y });

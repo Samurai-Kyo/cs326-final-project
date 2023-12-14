@@ -1,12 +1,14 @@
 import Board from "../models/BoardModel.js";
+import { CATEGORIES } from "./CategoriesController.js";
+import { loadState } from "./GameController.js";
+
+const BOARD = new Board();
 
 /**
  * Sends a request to the server to get a new board.
- * @param {int} size
- * @param {int} category_id
- * @returns {} An object containing the board and the words.
+ * @returns {obj} An object containing the board and the words.
  */
-async function fetchBoard(size, category_id) {
+async function fetchBoard() {
   try {
     const response = await fetch("/board", {
       method: "POST",
@@ -14,8 +16,8 @@ async function fetchBoard(size, category_id) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        size: size,
-        category: category_id,
+        size: BOARD.size,
+        category: CATEGORIES.currentCategoryId,
       }),
     });
     const data = await response.json();
@@ -25,14 +27,18 @@ async function fetchBoard(size, category_id) {
   }
 }
 
-async function setupBoard(size, category_id) {
+/**
+ * Sets up a new board.
+ */
+async function setupBoard() {
   try {
-    const boardData = await fetchBoard(size, category_id);
+    loadState();
+    const boardData = await fetchBoard();
     const words = boardData.words.map((word) => word.toUpperCase());
-    return new Board(boardData.board, size, words);
+    BOARD.setBoard(boardData.board, words);
   } catch (error) {
     console.log(error);
   }
 }
 
-export { setupBoard };
+export { BOARD, setupBoard };

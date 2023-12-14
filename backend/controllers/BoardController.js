@@ -9,7 +9,6 @@ import Board from "../models/Board.js";
 async function getBoard(req, res) {
   try{
     const { size, category } = req.body;
-    console.log(size, category);
     const db = new DB();
     await db.connect();
     const words = await db.getWordsByCategory(category);

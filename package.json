@@ -26,6 +26,7 @@
   "scripts": {
     "start": "node backend/index.js",
     "dev": "nodemon --watch backend --watch client --ignore backend/data backend/index.js",
+    "setup-db": "node backend/services/setupDB.js",
     "test": ""
   },
   "dependencies": {

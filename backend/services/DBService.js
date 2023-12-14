@@ -133,7 +133,7 @@ class DB {
       const data = await readFile(this.JSONPATH, "utf-8");
       const categoriesJSON = JSON.parse(data);
       for (const category in categoriesJSON) {
-        const words = categoriesJSON[category];
+        const words = categoriesJSON[category].filter((word) => word.length > 0 || word.length <= 20);
         const uniqueWords = [...new Set(words)].map((word) =>
           word.replace(/\(.*\)/g, "").replace(/[^a-zA-Z]/g, "")
         );
