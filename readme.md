@@ -1,11 +1,8 @@
 # Word Chain, a CS-326 Final Project
----
 
 ## Summary and Usage
 
 This project is a web application that allows users to play a game similar to word search. The user is presented with a grid of letters and a word bank. The user must find words in the word bank by selecting letters in the grid to form the words. Letters can be selected in any direction (up, down, left, right, and diagonally) as long as the letter selected is adjacent to the previously selected letter. Letters can also be deselected if it is a mistake by clicking on the last letter or using the clear button to remove all letters selected. Letters can be re-used even if they are already used to for other words that have been found in the word bank. Once a valid word is made via the letter selections, the word will be automatically crossed out in the word bank. The game is finished once all the words in the word bank are crossed out. The user can submit their score along with their name to a leaderboard. The leaderboard will display all game scores in descending order, along with the name, the board size, and category.
-
----
 
 ## Key Features
 
@@ -14,8 +11,6 @@ The project is built by separating the front-end and back-end into two separate 
 - If the user clicks the scoreboard button the board and word bank are hidden to display the scoreboard, and the button changes to go back to the "Game". The scoreboard is then fetched from the backend. Here a user can edit their name or delete their score.
 - If the user clicks the reset button, the game is reset and a new game can be played.
 - If the user clicks the help button, a modal is displayed that explains the rules of the game.
-
----
 
 ## Project Architecture
 
@@ -67,15 +62,11 @@ The root directory also contains the following files:
 - **README.md**: Contains this documentation for the project.
 - **.gitignore**: Contains files and folders that are ignored by git.
 
----
-
 ## To Run Locally
 - Clone the repository
 - Run `npm install` to install the dependencies
 - Run `npm start` to start the server
 - Open a browser and go to `localhost:3000` to view the page
-
----
 
 ## Configuring and Connecting to the Database
 The database is hosted on ElephantSQL. The credentials can be found in the ./backend/services/.env file.
@@ -87,8 +78,6 @@ To modify the categories and words in the database:
     - Each word is a string. Special characters are removed from the words when inserting into the database.
 - Run `npm run setup-db` to set up the database with the new categories and words
 
----
-
 ## Credits
 - **Node.js**: https://nodejs.org/en/
 - **Express**: https://expressjs.com/
@@ -99,8 +88,6 @@ To modify the categories and words in the database:
 - **ElephantSQL**: https://www.elephantsql.com/
 - **Bootstrap**: https://getbootstrap.com/
 - **Bootstrap Icons**: https://icons.getbootstrap.com/
-
----
 
 ## Authors
 - [Jon Rubio](https://github.com/Osyki)
