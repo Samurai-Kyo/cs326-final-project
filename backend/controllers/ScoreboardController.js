@@ -37,7 +37,6 @@ async function getScores(req, res) {
 async function deleteScore(req, res) {
     try{
         const { id } = req.params;
-        console.log(id);
         if (!id) {
             throw new Error("Missing data");
         }
