@@ -7,7 +7,7 @@ const CATEGORIES = new Categories();
  */
 async function fetchCategories() {
   try {
-    const response = await fetch("http://localhost:3000/categories");
+    const response = await fetch("https://cs326-final-project-web.onrender.com/categories");
     const data = await response.json();
     return data.categories;
   } catch (error) {
